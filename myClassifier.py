@@ -34,7 +34,8 @@ class Classifier():
         self.sizeX = sizeX
         self.sizeY = sizeY
         self.plateString = None
-        self.plateStrings = []
+        self.plateStrings = []                 # final string(s) of a plate(s)
+        self.plateStringsProbabilities = None  # probability(ies) of the final string(s)
         self.char = None
 
     def setNumpyImage(self, image):
@@ -143,17 +144,17 @@ class Classifier():
         hist /= np.linalg.norm(hist) + eps
         self.sample = np.reshape(hist, (-1, len(hist))).astype(np.float32)
 
-    def get_character_by_LogReg(self, binary=True):
+    def get_character_by_LogReg(self, binary=False):
         self.preprocess_hog()
         #self.preprocess_simple()
         label = self.logistic.predict(self.sample)
-        print(label[0])
-        print ("PROB:", self.logistic.predict_proba(self.sample)[0][label[0]])
+        #print(label[0])
+        #print ("PROB:", self.logistic.predict_proba(self.sample)[0][label[0]])
         if binary:
             return label
         else:
             mychar = str(chr(self.asciiDict[str(label[0])]))
-            return mychar
+            return mychar, self.logistic.predict_proba(self.sample)[0][label[0]]
 
     def get_character_by_neural_network(self, binary=True):
         #self.preprocess_hog()
@@ -177,6 +178,44 @@ class Classifier():
         else:
             mychar = str(chr(self.asciiDict[str(label)]))
             return mychar
+
+    def defineSixPlateCharactersbyLogReg(self, listOfListofRectangles,
+                                 lettersLogRegFile='letters_logistic.pkl',
+                                 lettersDictionaryFile='letters_logreg.dict',
+                                 digitsLogRegFile='digits_logistic.pkl',
+                                 digitsDictionaryFile='digits_logreg.dict'):
+
+        """check all plates and in each plate go through every set of 6-rectangles
+        give a result for each 6-rectange, for instance ABC-123 """
+        from Image2Characters import __path__ as module_path
+        self.plateStringsProbabilities = []
+        # if there are more thatn one candidate for 6-chars, we predict them all...
+        for plate in listOfListofRectangles:
+            if len(plate) != 6:
+                raise RuntimeError('only six character plates allowed in getSixPlateCharacters')
+            string=''
+            prob = 1.0
+            # alphabets
+            self.setlogReg(logRegFileName=module_path[0]+'/'+lettersLogRegFile)
+            self.setDictionary(dictionaryFile=module_path[0]+'/'+lettersDictionaryFile)
+            for rectangle in plate[0:3]:
+                self.setCharacter(rectangle=rectangle)
+                mychar, myprob = self.get_character_by_LogReg()
+                string = string + mychar
+                prob = prob * myprob
+            # digits
+            self.setlogReg(logRegFileName=module_path[0]+'/'+digitsLogRegFile)
+            self.setDictionary(dictionaryFile=module_path[0]+'/'+digitsDictionaryFile)
+            for rectangle in plate[3:6]:
+                self.setCharacter(rectangle=rectangle)
+                mychar, myprob = self.get_character_by_LogReg()
+                string = string + mychar
+                prob = prob * myprob
+            self.plateString = (string[0:3]+'-'+string[3:6])
+            #print(self.plateString)
+            self.plateStrings.append(self.plateString)
+            self.plateStringsProbabilities.append(prob)
+
 
     def defineSixPlateCharacters(self, listOfListofRectangles,
                                  lettersSvmFile='letters_svm.dat',
@@ -210,8 +249,7 @@ class Classifier():
             self.plateStrings.append(self.plateString)
 
     def getFinalStrings(self):
-        return self.plateStrings
-
+        return self.plateStrings, self.plateStringsProbabilities
 
 if __name__ == '__main__':
     import sys

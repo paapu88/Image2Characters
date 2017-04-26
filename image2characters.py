@@ -51,6 +51,7 @@ class image2Characters():
         from Image2Characters import __path__ as module_path
         
         myChars = []
+        myProb = []
         app1 = DetectPlate(trainedHaarFileName=module_path[0]+'/rekkari.xml',
                            npImage=self.img)
         plates = app1.getNpPlates()
@@ -65,9 +66,17 @@ class image2Characters():
             platesWithCharacterRegions = app3.imageToPlatesWithCharacterRegions()
             app5 = Classifier(npImage=plate)
             #app3.showImage()
-            app5.defineSixPlateCharacters(platesWithCharacterRegions)
-            myChars = myChars + app5.getFinalStrings()
-        return myChars
+            app5.defineSixPlateCharactersbyLogReg(platesWithCharacterRegions)
+            plate_chars, plate_probability = app5.getFinalStrings()
+            myChars = myChars + plate_chars
+            myProb = myProb + plate_probability
+
+        # sort so that most probable comes first
+        if any(myProb) is None:
+            return myChars
+        else:
+            myProb, myChars = zip(*sorted(zip(myProb, myChars)))
+            return myChars[::-1]
 
 
 if __name__ == '__main__':
