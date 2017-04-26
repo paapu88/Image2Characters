@@ -10,19 +10,32 @@ but binary classification NOT (whether we have a character in the box or not)
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
+from sklearn.externals import joblib
+from sklearn import linear_model
+from sklearn.neural_network import MLPClassifier
 
 class Classifier():
-    def __init__(self, npImage=None, svmFileName=None, dictionaryFile=None, sizeX=12, sizeY=18):
+    def __init__(self, npImage=None, NeuralNetworkFileName = None, logRegFileName=None, svmFileName=None, dictionaryFile=None,
+                 sizeX=12, sizeY=18):
         self.asciiDict = {}
+        if NeuralNetworkFileName is not None:
+            self.setNeuralNetwork(MLPFileName=NeuralNetworkFileName)
+        else:
+            self.NeuralNetwork = None
+        if logRegFileName is not None:
+            self.setlogReg(logRegFileName=logRegFileName)
+        else:
+            self.logistic = None
         if svmFileName is not None:
             self.setSvmTrainedFile(svmFileName=svmFileName)
         if dictionaryFile is not None:
-            self.setSvmDictionary(dictionaryFile=dictionaryFile)
+            self.setDictionary(dictionaryFile=dictionaryFile)
         self.img = npImage  # image as numpy array
         self.sizeX = sizeX
         self.sizeY = sizeY
         self.plateString = None
         self.plateStrings = []
+        self.char = None
 
     def setNumpyImage(self, image):
         """
@@ -32,12 +45,22 @@ class Classifier():
 
     def setCharacter(self, rectangle=None):
         if rectangle is None:
-            self.char = self.img.copy()
+            self.char = cv2.resize(self.img.copy(),(self.sizeX, self.sizeY))
+            print(self.char.shape)
+
         else:
             (x,y,w,h) = rectangle
             self.char = self.img.copy()[y:y+h,x:x+w]
 
+    def getCharacter(self):
+        if self.char is not None:
+            return self.char
+        else:
+            self.setCharacter()
+            return self.char
+
     def showCharacter(self):
+        print(self.char)
         plt.imshow(self.char, cmap = 'gray', interpolation = 'bicubic')
         plt.xticks([]), plt.yticks([])  # to hide tick values on X and Y axis
         plt.show()
@@ -45,13 +68,26 @@ class Classifier():
     def setImageFromFile(self, imageFileName, colorConversion=cv2.COLOR_BGR2GRAY):
         """ for debuggin image can be read from file also"""
         self.img = cv2.imread(imageFileName)
-        self.img = cv2.cvtColor(self.img, colorConversion)
+        try:
+            self.img = cv2.cvtColor(self.img, colorConversion)
+        except:
+            print("warning: no color conversion!")
+
+    def setNeuralNetwork(self, MLPFileName='neuralNetwork.pkl'):
+        """read trained neural network"""
+        self.NeuralNetwork=joblib.load(MLPFileName)
+
+    def setlogReg(self, logRegFileName):
+        """ load trained logistic regression classifier from a file """
+        self.logistic = joblib.load(logRegFileName)
+
 
     def setSvmTrainedFile(self, svmFileName):
         """load trained svm classifier"""
         self.svm = cv2.ml.SVM_load(svmFileName)
 
-    def setSvmDictionary(self, dictionaryFile):
+
+    def setDictionary(self, dictionaryFile):
         """A dictionary containing mapping from labels of svm to ascii codes of letters or digits"""
         self.dictionaryFile = dictionaryFile
         with open(dictionaryFile, 'r') as f:
@@ -83,9 +119,9 @@ class Classifier():
         return rotatedImg
 
     def preprocess_simple(self):
-        self.sample = None
-        resized = cv2.resize(self.char,(self.sizeX, self.sizeY))
-        self.sample = np.reshape(resized, (-1, self.sizeX*self.sizeY)).astype(np.float32)/255.0
+        resized = cv2.resize(self.char,(self.sizeX, self.sizeY)).astype(np.float32)
+        self.sample = resized.reshape((1, -1))  # to 1d
+
 
     def preprocess_hog(self):
         """picking right features, if used this must also be present when generating imput file for SVM"""
@@ -107,6 +143,28 @@ class Classifier():
         hist /= np.linalg.norm(hist) + eps
         self.sample = np.reshape(hist, (-1, len(hist))).astype(np.float32)
 
+    def get_character_by_LogReg(self, binary=True):
+        self.preprocess_hog()
+        #self.preprocess_simple()
+        label = self.logistic.predict(self.sample)
+        print(label[0])
+        print ("PROB:", self.logistic.predict_proba(self.sample)[0][label[0]])
+        if binary:
+            return label
+        else:
+            mychar = str(chr(self.asciiDict[str(label[0])]))
+            return mychar
+
+    def get_character_by_neural_network(self, binary=True):
+        #self.preprocess_hog()
+        self.preprocess_simple()
+        #print("SS", self.sample.shape)
+        label = self.NeuralNetwork.predict(self.sample)
+        if binary:
+            return label
+        else:
+            mychar = str(chr(self.asciiDict[str(label[0])]))
+            return mychar
 
     def get_character_by_SVM(self, binary=False):
         self.preprocess_hog()
@@ -137,13 +195,13 @@ class Classifier():
             string=''
             # alphabets
             self.setSvmTrainedFile(svmFileName=module_path[0]+'/'+lettersSvmFile)
-            self.setSvmDictionary(dictionaryFile=module_path[0]+'/'+lettersDictionaryFile)
+            self.setDictionary(dictionaryFile=module_path[0]+'/'+lettersDictionaryFile)
             for rectangle in plate[0:3]:
                 self.setCharacter(rectangle=rectangle)
                 string = string + self.get_character_by_SVM()
             # digits
             self.setSvmTrainedFile(svmFileName=module_path[0]+'/'+digitsSvmFile)
-            self.setSvmDictionary(dictionaryFile=module_path[0]+'/'+digitsDictionaryFile)
+            self.setDictionary(dictionaryFile=module_path[0]+'/'+digitsDictionaryFile)
             for rectangle in plate[3:6]:
                 self.setCharacter(rectangle=rectangle)
                 string = string + self.get_character_by_SVM()
@@ -157,9 +215,34 @@ class Classifier():
 
 if __name__ == '__main__':
     import sys
-    app = Classifier(svmFileName='letters_svm.dat',
-                     dictionaryFile='letters.dict')
+    #app = Classifier(svmFileName='letters_svm.dat',
+    #                 dictionaryFile='letters.dict')
+    #app = Classifier(logRegFileName='logistic.pkl')
+
+    # all characters
+    app = Classifier(NeuralNetworkFileName='/home/mka/PycharmProjects/Image2Characters/TrainSVM/Characters/SvmDir/neuralNetwork.pkl')
+    app.setDictionary(dictionaryFile='/home/mka/PycharmProjects/Image2Characters/TrainSVM/Characters/SvmDir/allSVM.txt.dict')
     app.setImageFromFile(imageFileName=sys.argv[1])
     app.setCharacter()
-    print("result:",app.get_character_by_SVM())
+    print("result NN:",app.get_character_by_neural_network(binary=False))
 
+    #all characters
+    app2 = Classifier(logRegFileName='/home/mka/PycharmProjects/Image2Characters/TrainSVM/Characters/SvmDir/logistic.pkl')
+    app2.setDictionary(dictionaryFile='/home/mka/PycharmProjects/Image2Characters/TrainSVM/Characters/SvmDir/allSVM.txt.dict')
+    app2.setImageFromFile(imageFileName=sys.argv[1])
+    app2.setCharacter()
+    print("result LOGREG:",app2.get_character_by_LogReg(binary=False))
+
+    #binary classifier
+    app = Classifier(NeuralNetworkFileName='/home/mka/PycharmProjects/Image2Characters/TrainSVM/Binary/SvmDir/neuralNetwork.pkl')
+    app.setDictionary(dictionaryFile='/home/mka/PycharmProjects/Image2Characters/TrainSVM/Binary/SvmDir/allSVM.txt.dict')
+    app.setImageFromFile(imageFileName=sys.argv[1])
+    app.setCharacter()
+    print("result NN:",app.get_character_by_neural_network(binary=True))
+
+    #binary classifier
+    app2 = Classifier(logRegFileName='/home/mka/PycharmProjects/Image2Characters/TrainSVM/Binary/SvmDir/logistic.pkl')
+    app2.setDictionary(dictionaryFile='/home/mka/PycharmProjects/Image2Characters/TrainSVM/Binary/SvmDir/allSVM.txt.dict')
+    app2.setImageFromFile(imageFileName=sys.argv[1])
+    app2.setCharacter()
+    print("result LOGREG:",app2.get_character_by_LogReg(binary=True))

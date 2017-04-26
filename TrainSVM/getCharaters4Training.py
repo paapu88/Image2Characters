@@ -57,7 +57,7 @@ Test/Predict
         self.sigma=0.1
         self.angle=0
         self.salt_amount=0.1
-        self.repeat=500
+        self.repeat=300
         # sheet containing samples
 
         # if we only classify to positives and negatives, binary=true
@@ -313,15 +313,19 @@ Test/Predict
                     ifile = random.randint(a=0,b=len(self.negative_image_files)-1)
                     #big_negative = rgb2gray(mpimg.imread(self.negative_image_files[ifile]))
                     big_negative = cv2.imread(self.negative_image_files[ifile])
-                    big_negative = cv2.cvtColor(big_negative,cv2.COLOR_BGR2GRAY)
-                    # get corners to have something else than flat areas
-                    corners = cv2.goodFeaturesToTrack(big_negative,5,0.01,10)
-                    corners = np.int0(corners)
-                    i=random.randint(0,len(corners)-1)
-                    x_ul, y_ul = corners[i].ravel()
-                    if ((x_ul + img.shape[1]) < big_negative.shape[1]) \
-                            and ((y_ul + img.shape[0]) < big_negative.shape[0]):
-                        found = True
+                    try:
+                        big_negative = cv2.cvtColor(big_negative,cv2.COLOR_BGR2GRAY)
+                        # get corners to have something else than flat areas
+                        corners = cv2.goodFeaturesToTrack(big_negative, 5, 0.01, 10)
+                        corners = np.int0(corners)
+                        i = random.randint(0, len(corners) - 1)
+                        x_ul, y_ul = corners[i].ravel()
+                        if ((x_ul + img.shape[1]) < big_negative.shape[1]) \
+                                and ((y_ul + img.shape[0]) < big_negative.shape[0]):
+                            found = True
+                    except:
+                        pass
+
 
                 # same noise as to positive samples
                 big_negative = self.make_noise(big_negative/255, invert=False)

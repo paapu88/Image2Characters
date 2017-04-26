@@ -192,6 +192,7 @@ class DetectPlate():
 
     def writePlates(self, name=None):
         """write each plate to a separate file"""
+        print("writing to file", name)
         for i, [x,y,w,h] in enumerate(self.plates):
             clone = self.getGray()
             rows,cols = clone.shape
@@ -210,7 +211,7 @@ if __name__ == '__main__':
 
     for imageFileName in glob.glob(sys.argv[1]):
         app = DetectPlate(imageFileName=imageFileName,
-                        trainedHaarFileName=PATH+'/rekkari.xml',
+                        trainedHaarFileName='./rekkari.xml',
                         detectFactor=1)
         app.getRotationAnglesCenters()
         app.writePlates(name='plateOnly-'+sys.argv[1])
