@@ -2,18 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="92df4fd9-bf68-4084-a4c7-ca864f5588d0" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TrainSVM/Binary/SvmDir/allSVM.tif" afterPath="$PROJECT_DIR$/TrainSVM/Binary/SvmDir/allSVM.tif" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TrainSVM/Binary/SvmDir/allSVM.txt" afterPath="$PROJECT_DIR$/TrainSVM/Binary/SvmDir/allSVM.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TrainSVM/Binary/SvmDir/digits_svm.dat" afterPath="$PROJECT_DIR$/TrainSVM/Binary/SvmDir/digits_svm.dat" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TrainSVM/Digits/SvmDir/allSVM.txt" afterPath="$PROJECT_DIR$/TrainSVM/Digits/SvmDir/allSVM.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TrainSVM/Digits/SvmDir/allSVM.txt.dict" afterPath="$PROJECT_DIR$/TrainSVM/Digits/SvmDir/allSVM.txt.dict" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TrainSVM/Digits/SvmDir/digits_svm.dat" afterPath="$PROJECT_DIR$/TrainSVM/Digits/SvmDir/digits_svm.dat" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TrainSVM/Letters/SvmDir/allSVM.txt" afterPath="$PROJECT_DIR$/TrainSVM/Letters/SvmDir/allSVM.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TrainSVM/Letters/SvmDir/allSVM.txt.dict" afterPath="$PROJECT_DIR$/TrainSVM/Letters/SvmDir/allSVM.txt.dict" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TrainSVM/Letters/SvmDir/digits_svm.dat" afterPath="$PROJECT_DIR$/TrainSVM/Letters/SvmDir/digits_svm.dat" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TrainSVM/character.py" afterPath="$PROJECT_DIR$/TrainSVM/character.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TrainSVM/getCharaters4Training.py" afterPath="$PROJECT_DIR$/TrainSVM/getCharaters4Training.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/digits_logistic.pkl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/letters_logistic.pkl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/digits_logreg.dict" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/letters_logreg.dict" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/filterCharacterRegions.py" afterPath="$PROJECT_DIR$/filterCharacterRegions.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/filterImage.py" afterPath="$PROJECT_DIR$/filterImage.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image2characters.py" afterPath="$PROJECT_DIR$/image2characters.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/initialCharacterRegions.py" afterPath="$PROJECT_DIR$/initialCharacterRegions.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/myClassifier.py" afterPath="$PROJECT_DIR$/myClassifier.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rekkariDetectionSave.py" afterPath="$PROJECT_DIR$/rekkariDetectionSave.py" />
     </list>
@@ -30,43 +27,21 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="getCharaters4Training.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/TrainSVM/getCharaters4Training.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1991">
-              <caret line="322" column="50" lean-forward="false" selection-start-line="322" selection-start-column="50" selection-end-line="322" selection-end-column="50" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="character.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/TrainSVM/character.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="311">
-              <caret line="213" column="48" lean-forward="false" selection-start-line="213" selection-start-column="48" selection-end-line="213" selection-end-column="48" />
-              <folding>
-                <element signature="e#911#948#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="rekkariDetectionSave.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="rekkariDetectionSave.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/rekkariDetectionSave.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="835">
-              <caret line="217" column="8" lean-forward="false" selection-start-line="217" selection-start-column="8" selection-end-line="217" selection-end-column="8" />
+            <state relative-caret-position="830">
+              <caret line="177" column="0" lean-forward="false" selection-start-line="177" selection-start-column="0" selection-end-line="177" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="myClassifier.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="myClassifier.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/myClassifier.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="435">
-              <caret line="155" column="25" lean-forward="true" selection-start-line="145" selection-start-column="0" selection-end-line="155" selection-end-column="25" />
+            <state relative-caret-position="816">
+              <caret line="294" column="69" lean-forward="true" selection-start-line="294" selection-start-column="69" selection-end-line="294" selection-end-column="69" />
               <folding>
                 <element signature="e#262#272#0" expanded="true" />
               </folding>
@@ -80,6 +55,7 @@
     <findStrings>
       <find>res</find>
       <find>dictio</find>
+      <find>writi</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -88,18 +64,21 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/rekkariDetectionSave.py" />
         <option value="$PROJECT_DIR$/TrainSVM/getCharaters4Training.py" />
         <option value="$PROJECT_DIR$/TrainSVM/character.py" />
+        <option value="$PROJECT_DIR$/filterCharacterRegions.py" />
+        <option value="$PROJECT_DIR$/filterImage.py" />
+        <option value="$PROJECT_DIR$/image2characters.py" />
+        <option value="$PROJECT_DIR$/initialCharacterRegions.py" />
         <option value="$PROJECT_DIR$/myClassifier.py" />
+        <option value="$PROJECT_DIR$/rekkariDetectionSave.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="177" />
-    <option name="y" value="413" />
-    <option name="width" value="1400" />
-    <option name="height" value="1000" />
+    <option name="y" value="37" />
+    <option name="width" value="1920" />
+    <option name="height" value="1007" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -129,24 +108,13 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Image2Characters" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Image2Characters" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TrainSVM" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
     </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
@@ -298,13 +266,21 @@
       <option name="presentableId" value="Default" />
       <updated>1492882878555</updated>
     </task>
+    <task id="LOCAL-00001" summary="using logistic regression with probabilities">
+      <created>1493213678131</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1493213678131</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="177" y="413" width="1400" height="1000" extended-state="0" />
+    <frame x="0" y="37" width="1920" height="1007" extended-state="2" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24964234" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24934107" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -326,12 +302,34 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="using logistic regression with probabilities" />
+    <option name="LAST_COMMIT_MESSAGE" value="using logistic regression with probabilities" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/TrainSVM/getCharaters4Training.py">
+    <entry file="file://$PROJECT_DIR$/rekkariDetectionSave.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3255">
+          <caret line="217" column="8" lean-forward="false" selection-start-line="217" selection-start-column="8" selection-end-line="217" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/myClassifier.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2745">
+          <caret line="183" column="75" lean-forward="false" selection-start-line="183" selection-start-column="56" selection-end-line="183" selection-end-column="75" />
+          <folding>
+            <element signature="e#262#272#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image2characters.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -339,13 +337,49 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/TrainSVM/getCharaters4Training.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4740">
+          <caret line="322" column="50" lean-forward="false" selection-start-line="322" selection-start-column="50" selection-end-line="322" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/TrainSVM/character.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2940">
+          <caret line="213" column="48" lean-forward="false" selection-start-line="213" selection-start-column="48" selection-end-line="213" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rekkariDetectionSave.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3180">
+          <caret line="217" column="8" lean-forward="false" selection-start-line="217" selection-start-column="8" selection-end-line="217" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/myClassifier.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#911#948#0" expanded="true" />
+            <element signature="e#262#272#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TrainSVM/getCharaters4Training.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TrainSVM/character.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -363,7 +397,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -371,45 +404,70 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TrainSVM/getCharaters4Training.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4740">
+          <caret line="322" column="50" lean-forward="false" selection-start-line="322" selection-start-column="50" selection-end-line="322" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TrainSVM/character.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2940">
+          <caret line="213" column="48" lean-forward="false" selection-start-line="213" selection-start-column="48" selection-end-line="213" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/filterCharacterRegions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4296">
+          <caret line="424" column="0" lean-forward="false" selection-start-line="424" selection-start-column="0" selection-end-line="424" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/filterImage.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="786">
+          <caret line="210" column="0" lean-forward="false" selection-start-line="210" selection-start-column="0" selection-end-line="210" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image2characters.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="816">
+          <caret line="83" column="0" lean-forward="true" selection-start-line="83" selection-start-column="0" selection-end-line="83" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/initialCharacterRegions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="816">
+          <caret line="121" column="0" lean-forward="true" selection-start-line="121" selection-start-column="0" selection-end-line="121" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/myClassifier.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="816">
+          <caret line="294" column="69" lean-forward="true" selection-start-line="294" selection-start-column="69" selection-end-line="294" selection-end-column="69" />
           <folding>
-            <element signature="e#911#948#0" expanded="true" />
+            <element signature="e#262#272#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/rekkariDetectionSave.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="835">
-          <caret line="217" column="8" lean-forward="false" selection-start-line="217" selection-start-column="8" selection-end-line="217" selection-end-column="8" />
+        <state relative-caret-position="830">
+          <caret line="177" column="0" lean-forward="false" selection-start-line="177" selection-start-column="0" selection-end-line="177" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TrainSVM/getCharaters4Training.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1991">
-          <caret line="322" column="50" lean-forward="false" selection-start-line="322" selection-start-column="50" selection-end-line="322" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TrainSVM/character.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="311">
-          <caret line="213" column="48" lean-forward="false" selection-start-line="213" selection-start-column="48" selection-end-line="213" selection-end-column="48" />
-          <folding>
-            <element signature="e#911#948#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/myClassifier.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="155" column="25" lean-forward="true" selection-start-line="145" selection-start-column="0" selection-end-line="155" selection-end-column="25" />
-          <folding>
-            <element signature="e#262#272#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>

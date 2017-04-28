@@ -17,6 +17,16 @@ from sklearn.neural_network import MLPClassifier
 class Classifier():
     def __init__(self, npImage=None, NeuralNetworkFileName = None, logRegFileName=None, svmFileName=None, dictionaryFile=None,
                  sizeX=12, sizeY=18):
+        """
+
+        :param npImage: numpy array of image
+        :param NeuralNetworkFileName: filename of trained neural network scikit recognizer
+        :param logRegFileName: filename of trained scikit logistic regression recognizer
+        :param svmFileName: filename of trained scikit support vector machine recognizer
+        :param dictionaryFile: mapping from character recognizer to ascii
+        :param sizeX: size of character in pixels in X
+        :param sizeY: size of character in pixels in Y
+        """
         self.asciiDict = {}
         if NeuralNetworkFileName is not None:
             self.setNeuralNetwork(MLPFileName=NeuralNetworkFileName)
@@ -38,6 +48,14 @@ class Classifier():
         self.plateStringsProbabilities = None  # probability(ies) of the final string(s)
         self.char = None
 
+    def setImageFromFile(self, imageFileName, colorConversion=cv2.COLOR_BGR2GRAY):
+        """ for debugging:  image can be read also from file"""
+        self.img = cv2.imread(imageFileName)
+        try:
+            self.img = cv2.cvtColor(self.img, colorConversion)
+        except:
+            print("warning: no color conversion!")
+
     def setNumpyImage(self, image):
         """
         set image from numpy array
@@ -45,15 +63,16 @@ class Classifier():
         self.img = image
 
     def setCharacter(self, rectangle=None):
+        """ set the character to be recognized as numpy array"""
         if rectangle is None:
             self.char = cv2.resize(self.img.copy(),(self.sizeX, self.sizeY))
             print(self.char.shape)
-
         else:
             (x,y,w,h) = rectangle
             self.char = self.img.copy()[y:y+h,x:x+w]
 
     def getCharacter(self):
+        """ get the current character """
         if self.char is not None:
             return self.char
         else:
@@ -61,18 +80,11 @@ class Classifier():
             return self.char
 
     def showCharacter(self):
+        """ debugging: show the current character"""
         print(self.char)
         plt.imshow(self.char, cmap = 'gray', interpolation = 'bicubic')
         plt.xticks([]), plt.yticks([])  # to hide tick values on X and Y axis
         plt.show()
-
-    def setImageFromFile(self, imageFileName, colorConversion=cv2.COLOR_BGR2GRAY):
-        """ for debuggin image can be read from file also"""
-        self.img = cv2.imread(imageFileName)
-        try:
-            self.img = cv2.cvtColor(self.img, colorConversion)
-        except:
-            print("warning: no color conversion!")
 
     def setNeuralNetwork(self, MLPFileName='neuralNetwork.pkl'):
         """read trained neural network"""
@@ -82,11 +94,9 @@ class Classifier():
         """ load trained logistic regression classifier from a file """
         self.logistic = joblib.load(logRegFileName)
 
-
     def setSvmTrainedFile(self, svmFileName):
         """load trained svm classifier"""
         self.svm = cv2.ml.SVM_load(svmFileName)
-
 
     def setDictionary(self, dictionaryFile):
         """A dictionary containing mapping from labels of svm to ascii codes of letters or digits"""
@@ -120,12 +130,12 @@ class Classifier():
         return rotatedImg
 
     def preprocess_simple(self):
+        """ no preprosesing for neural network """
         resized = cv2.resize(self.char,(self.sizeX, self.sizeY)).astype(np.float32)
         self.sample = resized.reshape((1, -1))  # to 1d
 
-
     def preprocess_hog(self):
-        """picking right features, if used this must also be present when generating imput file for SVM"""
+        """picking right features, for SVM and logistic regression """
         self.sample = None
         resized = cv2.resize(self.char,(self.sizeX, self.sizeY))
         gx = cv2.Sobel(resized, cv2.CV_32F, 1, 0)
@@ -145,6 +155,7 @@ class Classifier():
         self.sample = np.reshape(hist, (-1, len(hist))).astype(np.float32)
 
     def get_character_by_LogReg(self, binary=False):
+        """ identify the character by logistic regression, give also probability """
         self.preprocess_hog()
         #self.preprocess_simple()
         label = self.logistic.predict(self.sample)
@@ -157,6 +168,7 @@ class Classifier():
             return mychar, self.logistic.predict_proba(self.sample)[0][label[0]]
 
     def get_character_by_neural_network(self, binary=True):
+        """ identify the character by neural network """
         #self.preprocess_hog()
         self.preprocess_simple()
         #print("SS", self.sample.shape)
@@ -168,6 +180,7 @@ class Classifier():
             return mychar
 
     def get_character_by_SVM(self, binary=False):
+        """ identify the character by support vector machine """
         self.preprocess_hog()
         ret, resp = self.svm.predict(self.sample)
         #print (ret, resp)
@@ -184,8 +197,7 @@ class Classifier():
                                  lettersDictionaryFile='letters_logreg.dict',
                                  digitsLogRegFile='digits_logistic.pkl',
                                  digitsDictionaryFile='digits_logreg.dict'):
-
-        """check all plates and in each plate go through every set of 6-rectangles
+        """ By logistic regression: check all plates and in each plate go through every set of 6-rectangles
         give a result for each 6-rectange, for instance ABC-123 """
         from Image2Characters import __path__ as module_path
         self.plateStringsProbabilities = []
@@ -222,8 +234,7 @@ class Classifier():
                                  lettersDictionaryFile='letters.dict',
                                  digitsSvmFile='digits_svm.dat',
                                  digitsDictionaryFile='digits.dict'):
-
-        """check all plates and in each plate go through every set of 6-rectangles
+        """ By support vector machine: check all plates and in each plate go through every set of 6-rectangles
         give a result for each 6-rectange, for instance ABC-123 """
         from Image2Characters import __path__ as module_path
 
@@ -249,13 +260,11 @@ class Classifier():
             self.plateStrings.append(self.plateString)
 
     def getFinalStrings(self):
+        """ give the final result """
         return self.plateStrings, self.plateStringsProbabilities
 
 if __name__ == '__main__':
     import sys
-    #app = Classifier(svmFileName='letters_svm.dat',
-    #                 dictionaryFile='letters.dict')
-    #app = Classifier(logRegFileName='logistic.pkl')
 
     # all characters
     app = Classifier(NeuralNetworkFileName='/home/mka/PycharmProjects/Image2Characters/TrainSVM/Characters/SvmDir/neuralNetwork.pkl')

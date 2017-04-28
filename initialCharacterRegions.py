@@ -21,7 +21,7 @@ class InitialCharacterRegions():
             self.imageX = self.img.shape[1]
 
     def setImageFromFile(self, imageFileName, colorConversion=cv2.COLOR_BGR2GRAY):
-        """ for debuggin image can be read from file also"""
+        """ for debugging: image can be read from file also"""
         import os
         if not os.path.isfile(imageFileName):
             raise FileNotFoundError('NO imagefile with name: ' + imageFileName)
@@ -39,7 +39,6 @@ class InitialCharacterRegions():
     def getRegions(self):
         return self.regions
 
-
     def getInitialRegionsFast(self):
         """
         http://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_fast/py_fast.html#fast
@@ -56,7 +55,9 @@ class InitialCharacterRegions():
         print(len(kp))
 
     def getInitialRegionsMser(self):
-        """ get rectangles of possible characters"""
+        """ get rectangles of possible characters
+            http://docs.opencv.org/trunk/d3/d28/classcv_1_1MSER.html
+        """
         # tuple is used instead of list because we need make sets of tuples
         self.regions = tuple(self.mser.detectRegions(self.img)[-1])
 
@@ -81,15 +82,11 @@ class InitialCharacterRegions():
         self.regions = []
         for contour in contours:
             self.regions.append(cv2.boundingRect(contour))
-        print("N OF CONTOURS", len(contours))
-
 
     def showAllRectangles(self, clone=None, regions=None):
         """ show image with current rectangles on it"""
-
         if self.regions is None and regions is None:
             raise RuntimeError("No rectangles, did you remember to search them by some method in InitialCharacterRegions?")
-
         if clone is None:
             clone = self.getClone()
         if regions is None:
@@ -112,7 +109,6 @@ class InitialCharacterRegions():
         for i, (x,y,w,h) in enumerate(self.regions):
             roi_gray = clone[y:y+h, x:x+w]
             cv2.imwrite(str(i)+'-'+sys.argv[1]+'.tif', roi_gray)
-
 
 if __name__ == '__main__':
     import sys

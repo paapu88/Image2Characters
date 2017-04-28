@@ -24,7 +24,9 @@ class FilterCharacterRegions(InitialCharacterRegions):
     """
 
     def __init__(self, npImage=None):
-        # give the initial rectangle produces the current image
+        """
+        :param npImage: numpy array of image
+        """
         InitialCharacterRegions.__init__(self, npImage)
 
         self.img = npImage  # image as numpy array
@@ -39,13 +41,17 @@ class FilterCharacterRegions(InitialCharacterRegions):
 
 
     def setImageFromFile(self, imageFileName, colorConversion=cv2.COLOR_BGR2GRAY):
-        """ for debuggin image can be read from file also"""
+        """ for debugging: image can be read from file also"""
         self.img = cv2.imread(imageFileName)
         self.img = cv2.cvtColor(self.img, colorConversion)
         self.imageY = self.img.shape[0]
         self.imageX = self.img.shape[1]
 
     def reset(self, npImage=None):
+        """
+        Start from a new image as numpy array
+        :param npImage: : numpy array of image
+        """
         self.img = npImage  # image as numpy array
         self.regions = None
         if npImage is not None:
@@ -214,9 +220,7 @@ class FilterCharacterRegions(InitialCharacterRegions):
 
     def showIntermediateRectangles(self):
         """ show image with current rectangles on it"""
-
         clone = self.getClone()
-
         for (x,y,w,h) in self.regions:
             cv2.rectangle(clone,(x,y),(x+w,y+h),(255,255,255),1)
         plt.imshow(clone, cmap = 'gray', interpolation = 'bicubic')
@@ -260,9 +264,6 @@ class FilterCharacterRegions(InitialCharacterRegions):
         y2 = max(self.listOfSixLists[0][0][1] + self.listOfSixLists[0][0][3],
                  self.listOfSixLists[0][5][1] + self.listOfSixLists[0][5][3])
         area = self.getClone()[y1:y2, x1:x2]
-        #cv2.imshow('Final Rectangles', area)
-        #while(cv2.waitKey()!=ord('q')):
-        #    continue
         return area
 
     def descew(self, area):
@@ -284,19 +285,16 @@ class FilterCharacterRegions(InitialCharacterRegions):
         # coordinates
         coords = np.column_stack(np.where(thresh > 0))
         angle = cv2.minAreaRect(coords)[-1]
-
         # the `cv2.minAreaRect` function returns values in the
         # range [-90, 0); as the rectangle rotates clockwise the
         # returned angle trends to 0 -- in this special case we
         # need to add 90 degrees to the angle
         if angle < -45:
             angle = -(90 + angle)
-
         # otherwise, just take the inverse of the angle to make
         # it positive
         else:
             angle = -angle
-
             # rotate the image to deskew it
         (h, w) = area.shape[:2]
         center = (w // 2, h // 2)
@@ -340,18 +338,6 @@ class FilterCharacterRegions(InitialCharacterRegions):
             angles.append(angle)
             weights.append(np.var(hist))
             xhist = np.arange(len(hist))
-            #fig = plt.figure()
-            #a = fig.add_subplot(1, 2, 1)
-            #plt.imshow(dst, cmap='gray', interpolation='bicubic')
-            #a.set_title('Rotated ' + str(angle))
-            #a = fig.add_subplot(1, 2, 2)
-            #plt.plot(xhist, hist)
-            #plt.title("H"+str(np.var(hist)))
-            #plt.show()
-
-        print("AW ", angles, weights)
-        #weights=weights-np.min(weights)
-        #angle = np.average(a=angles, axis=0, weights=weights)
         f = interpolate.interp1d(angles, weights)
         angles_tight = np.linspace(minAng, maxAng, 1+10*int(round(abs(maxAng)+abs(minAng))))
         faas = f(angles_tight)
@@ -409,7 +395,6 @@ if __name__ == '__main__':
     area = app.getCharacterRegion()
     area=app.descew_histo(area)
     app.reset(area)
-
     #app.cleanImage()
     app.getInitialRegionsMser()
     #app.getInitialRegionsByContours()
@@ -420,14 +405,8 @@ if __name__ == '__main__':
     app.checkArea()
     app.showIntermediateRectangles()
 
-    #print("all RECTANGLEs ",app.regions)
-    #print("end of all RECTANGLES")
     app.checkSameness()
-    #print("22: all RECTANGLEs ",app.regions)
-    #print("22: end of all RECTANGLES")
-    #sys.exit()
     app.determineSetsOfSix()
-
     #print("LIST OF RECTANGLE CANDIDATES",app.listOfSixSets)
     #print("end of candidates")
     app.sortSetsAndToList()
@@ -438,27 +417,12 @@ if __name__ == '__main__':
     app.checkSixXcloseness()
     #print("FINAL LIST OF SORTED RECTANGLE CANDIDATES",app.listOfSixLists)
     #print("end of SORTED candidates")
-
-    #for region in app.regions:
-    #    print(region)
-
     clone = app.getClone()
-    #for six in app.listOfSets:
-    #    for rectangle in six:
-
     for sixList in app.listOfSixLists:
         for i, [x,y,w,h] in enumerate(sixList):
             cv2.rectangle(clone,(x,y),(x+w,y+h),(0,255,0),5)
             roi_gray = clone[y:y+h, x:x+w]
-    #        #roi_color = img[y:y+h, x:x+w]
-    #        cv2.imwrite(str(i)+'-'+sys.argv[1]+'.jpg', roi_gray)
-
     cv2.imshow('img', clone)
-
-
-
-    #    cv2.namedWindow('img', 0)
-    #    cv2.imshow('img', vis)
     while(cv2.waitKey()!=ord('q')):
         continue
     cv2.destroyAllWindows()

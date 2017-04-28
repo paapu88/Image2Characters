@@ -3,7 +3,7 @@ Routines to make image more suitable for area recognition
 
 self.filtered has the image after subsequent operations
 
-to test python3 filterImage.py file.jpg
+to test:  python3 filterImage.py file.jpg
 """
 
 import cv2
@@ -14,7 +14,9 @@ import numpy as np
 
 class FilterImage():
     def __init__(self, npImage=None):
-
+        """
+        image can be read in as numpy array
+        """
         self.img = npImage  # image as numpy array
         self.mser = cv2.MSER_create(_max_variation=10)
         self.regions = None
@@ -26,7 +28,7 @@ class FilterImage():
 
 
     def setImageFromFile(self, imageFileName, colorConversion=cv2.COLOR_BGR2GRAY):
-        """ for debuggin image can be read from file also"""
+        """ for debugging: image can be read from file also"""
         self.img = cv2.imread(imageFileName)
         self.img = cv2.cvtColor(self.img, colorConversion)
         self.imageY = self.img.shape[0]
@@ -169,12 +171,6 @@ class FilterImage():
         kernel = np.ones((3, 3), np.uint8)
         self.filtered = cv2.dilate(self.filtered,kernel,iterations = 1)
 
-        #kernel = np.ones((1, 1), np.uint8)
-        #self.filtered = cv2.erode(self.filtered, kernel, iterations=1)
-
-        #self.filtered = cv2.morphologyEx(self.filtered, cv2.MORPH_OPEN, kernel)
-        #self.filtered = cv2.morphologyEx(self.filtered, cv2.MORPH_CLOSE, kernel)
-
     def histogram(self):
         """calculate histogram based on sum over x-values of the image"""
         y=np.sum(self.getClone(),axis=1)
@@ -184,10 +180,7 @@ class FilterImage():
 
     def showOriginalAndFiltered(self):
         """ show original and filtered image"""
-
         clone = self.getClone()
-        #clone = cv2.cvtColor(clone, cv2.COLOR_GRAY2RGB)
-        #otsu = cv2.cvtColor(self.otsu, cv2.COLOR_LUV2RGB)
         fig = plt.figure()
         a=fig.add_subplot(1,2,1)
         imgplot = plt.imshow(clone, cmap = 'gray', interpolation = 'bicubic')
