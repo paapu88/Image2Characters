@@ -1,7 +1,7 @@
 # https://github.com/paapu88/Image2Characters.git
 from an image by haar cascade get plate,
 then from plate get regions (by MSER) ,
-from regions get letters/digits by SVM/öogistic regression
+from regions get letters/digits by SVM/logistic regression
 
 Usage:
      python3 image2characters.py filename
@@ -38,5 +38,8 @@ Kauppi:~/PycharmProjects/Image2Characters> cp TrainSVM/Letters/SvmDir/allSVM.txt
 Kauppi:~/PycharmProjects/Image2Characters> cp TrainSVM/Digits//SvmDir/logistic.pkl digits_logistic.pkl
 Kauppi:~/PycharmProjects/Image2Characters> cp TrainSVM/Digits//SvmDir/allSVM.txt.dict  digits_logreg.dict
 
-
-
+Sphinx:
+sphinx-quickstart
+> autodoc: automatically insert docstrings from modules (y/n) [n]: y
+edit index.rst
+make html
