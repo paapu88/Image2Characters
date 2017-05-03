@@ -83,7 +83,7 @@ if __name__ == '__main__':
     import sys, glob
 
     files=glob.glob(sys.argv[1])
-    print(files)
+    # print(files)
     if len(files)==0:
         raise FileNotFoundError('no files with search term: '+sys.argv[1])
     app = image2Characters()

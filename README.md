@@ -1,58 +1,42 @@
-# Image2Letters
+# https://github.com/paapu88/Image2Characters.git
 from an image by haar cascade get plate,
 then from plate get regions (by MSER) ,
-from regions get letters/digits by SVM
+from regions get letters/digits by SVM/öogistic regression
 
 Usage:
-     image2characters.py vkz-825.jpg
-     
+     python3 image2characters.py filename
 
+
+The flow of the program is defined in image2characters.py.
+It uses modules
+rekkariDetectionSave.py
+- to find a region in the image containing the plate (Haar cascades of opencv)
+filterImage.py
+- to make the image more clear
+filterCharacterRegions.py (inherits from initialCharacterRegions.py)
+- to get list of six-rectangles for possible plete-character regions of the image
+myClassifier.py
+- to detect characters
+
+
+
+Background:
 # Haar cascade description:
 https://archive.ics.uci.edu/ml/datasets/Letter+Recognition
+raw training data in mka@mka-HP:~/PycharmProjects/Rekkari/Training
 
-# The SVM files are copied as follows
-cp TrainSVM/Letters/SvmDir/allSVM.txt.dict letters.dict
-cp TrainSVM/Letters/SvmDir/digits_svm.dat letters_svm.dat
-cp TrainSVM/Digits/SvmDir/allSVM.txt.dict digits.dict
-cp TrainSVM/Digits/SvmDir/digits_svm.dat .
+# The SVM/logistic regression files are trained in
+└── TrainSVM
+    ├── Digits
+    │   └── SvmDir
+    ├── Letters
+    │   └── SvmDir
 
+copied as follows
+Kauppi:~/PycharmProjects/Image2Characters> cp TrainSVM/Letters/SvmDir/logistic.pkl letters_logistic.pkl
+Kauppi:~/PycharmProjects/Image2Characters> cp TrainSVM/Letters/SvmDir/allSVM.txt.dict letters_logreg.dict
+Kauppi:~/PycharmProjects/Image2Characters> cp TrainSVM/Digits//SvmDir/logistic.pkl digits_logistic.pkl
+Kauppi:~/PycharmProjects/Image2Characters> cp TrainSVM/Digits//SvmDir/allSVM.txt.dict  digits_logreg.dict
 
-* opencv installation
-examples are in
-Kauppi:~/Programs/opencv-3.2.0/build/bin
-
-see    http://docs.opencv.org/3.1.0/d7/d9f/tutorial_linux_install.html
-opencv installation (because cv2.text needs opencv>= 3.0)
-I downloaded 06.06.2017
-https://github.com/opencv/opencv/archive/3.2.0.zip
-https://github.com/opencv/opencv_contrib/archive/3.2.0.zip
-
-sudo apt-get install apt-file
-apt-file update
-apt-file search gstreamer-base-1.0
-sudo apt-get install libgstreamer1.0-dev
-sudo apt-get install libgstreamer-plugins-base1.0-dev
-sudo apt-get install libavresample-dev libavresample-ffmpeg2 libgphoto2-dev
-sudo apt-get install libgoogle-glog-dev
-sudo apt-get install libopenblas-dev liblapacke-dev checkinstall
-
-Kauppi:~/Programs/opencv-3.2.0
-cd ~/Programs/opencv-3.2.0
-mkdir build
-cd build
-cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local \
--D OPENCV_EXTRA_MODULES_PATH=~/Programs/opencv_contrib-3.2.0/modules \
--D INSTALL_PYTHON_EXAMPLES=ON  -D ENABLE_PRECOMPILED_HEADERS=OFF \
--D BUILD_EXAMPLES=ON ..
-
-make
-
-sudo make install
-sudo ldconfig
-
-# for tesseract (not used for the moment)
-# you need tesserocr (and tesseract, which hopefully comes automatically below))
-apt-get install tesseract-ocr libtesseract-dev libleptonica-dev
-sudo -H pip3 install tesserocr
 
 
