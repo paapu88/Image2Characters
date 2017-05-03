@@ -1,17 +1,9 @@
 """
-From an image get a list of possible characters of a licence plate,
-There may be more than one plate in the image,
-we hopefully get all licence plates.
-
-Typically one also gets extra false positive plates
-
-getting string of characters of a licence plate
-
-cd  /home/mka/PycharmProjects/Image2Letters/test
+From an image get a list of possible licence plate strings.
+The first one has the highest probability.
 
 Usage:
     python3 image2characters.py "plate.jpg"
-
 
     or from other python modules:
 
@@ -30,7 +22,6 @@ from Image2Characters.initialCharacterRegions import InitialCharacterRegions
 from Image2Characters.myClassifier import Classifier
 import glob
 import cv2
-
 
 
 class image2Characters():

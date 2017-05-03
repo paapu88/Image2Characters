@@ -103,7 +103,6 @@ class DetectPlate():
             plt.xticks([]), plt.yticks([])  # to hide tick values on X and Y axis
             plt.show()
 
-
     def rotatePlate(self, rectangle, minAng=-10, maxAng=10):
         """rotate single plate to make letters and digits horizontal"""
         from scipy import interpolate
@@ -133,7 +132,6 @@ class DetectPlate():
         dst = cv2.warpAffine(clone,M,(cols,rows))
         return dst
 
-
     def getRotationAnglesCenters(self, minAng=-10, maxAng=10):
         """rotate image so that we get weighted maximum of sum over x-sum-values of the plate"""
         from filterImage import FilterImage
@@ -160,18 +158,6 @@ class DetectPlate():
                 angles.append(angle)
                 weights.append(np.var(hist))
 
-                #xhist = np.arange(len(hist))
-                #fig = plt.figure()
-                #a = fig.add_subplot(1, 2, 1)
-                #cv2.rectangle(dst, (x, y), (x + w, y + h), (0, 255, 0), 5)
-                #plt.imshow(dst[y:y+h,x:x+w], cmap = 'gray', interpolation = 'bicubic')
-                #plt.imshow(dst, cmap='gray', interpolation='bicubic')
-                #a.set_title('Rotated ' + str(angle))
-                #a = fig.add_subplot(1, 2, 2)
-                #plt.plot(hist, xhist)
-                #plt.title("H"+str(np.var(hist)))
-                #plt.show()
-
             f = interpolate.interp1d(angles, weights)
             faas = f(angles_many_iter)
             angle=angles_many_iter[np.argmax(faas)]
@@ -189,9 +175,8 @@ class DetectPlate():
     def get_rotation_centers(self):
         return self.rotation_centers
 
-
     def writePlates(self, name=None):
-        """write each plate to a separate file"""
+        """debugging: write each plate to a separate file"""
         print("writing to file", name)
         for i, [x,y,w,h] in enumerate(self.plates):
             clone = self.getGray()
@@ -200,6 +185,23 @@ class DetectPlate():
                 M = cv2.getRotationMatrix2D(self.rotation_centers[i],self.rotation_angles[i],1)
                 clone = cv2.warpAffine(clone,M,(cols,rows))
                 print("xywhWrite",x,y,w,h,self.rotation_centers[i],self.rotation_angles[i])
+            roi_gray = clone[y:y+h, x:x+w]
+            if name is None:
+                cv2.imwrite('orig'+str(i)+'-'+'plate'+'-'+sys.argv[1]+'.tif', roi_gray)
+            else:
+                cv2.imwrite('orig'+str(i)+'-'+name, roi_gray)
+            # make height of figure bigger for neural network
+            if h < 0.5*w:
+                h_orig = h
+                h = int(round(0.5 * w))
+                change = h - h_orig
+            y = int(round(y - change/2))
+            ## check that we are image
+            if (h+y)> clone.shape[0]:
+                y = clone.shape[0] - h
+            if y < 0:
+                y = 0
+            #print("x,y,w,h",x,y,w,h)
             roi_gray = clone[y:y+h, x:x+w]
             if name is None:
                 cv2.imwrite(str(i)+'-'+'plate'+'-'+sys.argv[1]+'.tif', roi_gray)
@@ -216,7 +218,3 @@ if __name__ == '__main__':
         app.getRotationAnglesCenters()
         app.writePlates(name='plateOnly-'+sys.argv[1])
         app.showPlates()
-
-
-
-
