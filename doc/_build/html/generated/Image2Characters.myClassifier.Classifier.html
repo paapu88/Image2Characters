@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Image2Characters.myClassifier.Classifier &#8212; Image2Characters 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Image2Characters.filterCharacterRegions.FilterCharacterRegions" href="Image2Characters.filterCharacterRegions.FilterCharacterRegions.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Image2Characters.filterCharacterRegions.FilterCharacterRegions.html" title="Image2Characters.filterCharacterRegions.FilterCharacterRegions"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Image2Characters 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../submodules.html" accesskey="U">Submodule documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="image2characters-myclassifier-classifier">
+<h1>Image2Characters.myClassifier.Classifier<a class="headerlink" href="#image2characters-myclassifier-classifier" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="Image2Characters.myClassifier.Classifier">
+<em class="property">class </em><code class="descclassname">Image2Characters.myClassifier.</code><code class="descname">Classifier</code><span class="sig-paren">(</span><em>npImage=None</em>, <em>NeuralNetworkFileName=None</em>, <em>logRegFileName=None</em>, <em>svmFileName=None</em>, <em>dictionaryFile=None</em>, <em>sizeX=12</em>, <em>sizeY=18</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Image2Characters/myClassifier.html#Classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Image2Characters.myClassifier.Classifier" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="Image2Characters.myClassifier.Classifier.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>npImage=None</em>, <em>NeuralNetworkFileName=None</em>, <em>logRegFileName=None</em>, <em>svmFileName=None</em>, <em>dictionaryFile=None</em>, <em>sizeX=12</em>, <em>sizeY=18</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Image2Characters/myClassifier.html#Classifier.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Image2Characters.myClassifier.Classifier.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>npImage</strong> &#8211; numpy array of image</li>
+<li><strong>NeuralNetworkFileName</strong> &#8211; filename of trained neural network scikit recognizer</li>
+<li><strong>logRegFileName</strong> &#8211; filename of trained scikit logistic regression recognizer</li>
+<li><strong>svmFileName</strong> &#8211; filename of trained scikit support vector machine recognizer</li>
+<li><strong>dictionaryFile</strong> &#8211; mapping from character recognizer to ascii</li>
+<li><strong>sizeX</strong> &#8211; size of character in pixels in X</li>
+<li><strong>sizeY</strong> &#8211; size of character in pixels in Y</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#Image2Characters.myClassifier.Classifier.__init__" title="Image2Characters.myClassifier.Classifier.__init__"><code class="xref py py-obj docutils literal"><span class="pre">__init__</span></code></a>([npImage,&nbsp;NeuralNetworkFileName,&nbsp;...])</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param npImage:</th><td class="field-body">numpy array of image</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">defineSixPlateCharacters</span></code>(listOfListofRectangles)</td>
+<td>By support vector machine: check all plates and in each plate go through every set of 6-rectangles</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">defineSixPlateCharactersbyLogReg</span></code>(...[,&nbsp;...])</td>
+<td>By logistic regression: check all plates and in each plate go through every set of 6-rectangles</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">deskew</span></code>(img)</td>
+<td>descew from</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">getCharacter</span></code>()</td>
+<td>get the current character</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">getFinalStrings</span></code>()</td>
+<td>give the final result</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">get_character_by_LogReg</span></code>([binary])</td>
+<td>identify the character by logistic regression, give also probability</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">get_character_by_SVM</span></code>([binary])</td>
+<td>identify the character by support vector machine</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">get_character_by_neural_network</span></code>([binary])</td>
+<td>identify the character by neural network</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">preprocess_hog</span></code>()</td>
+<td>picking right features, for SVM and logistic regression</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">preprocess_simple</span></code>()</td>
+<td>no preprosesing for neural network</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">setCharacter</span></code>([rectangle])</td>
+<td>set the character to be recognized as numpy array</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">setDictionary</span></code>(dictionaryFile)</td>
+<td>A dictionary containing mapping from labels of svm to ascii codes of letters or digits</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">setImageFromFile</span></code>(imageFileName[,&nbsp;...])</td>
+<td>for debugging:  image can be read also from file</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">setNeuralNetwork</span></code>([MLPFileName])</td>
+<td>read trained neural network</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">setNumpyImage</span></code>(image)</td>
+<td>set image from numpy array</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">setSvmTrainedFile</span></code>(svmFileName)</td>
+<td>load trained svm classifier</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">setlogReg</span></code>(logRegFileName)</td>
+<td>load trained logistic regression classifier from a file</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">showCharacter</span></code>()</td>
+<td>debugging: show the current character</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Image2Characters.filterCharacterRegions.FilterCharacterRegions.html"
+                        title="previous chapter">Image2Characters.filterCharacterRegions.FilterCharacterRegions</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/generated/Image2Characters.myClassifier.Classifier.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Image2Characters.filterCharacterRegions.FilterCharacterRegions.html" title="Image2Characters.filterCharacterRegions.FilterCharacterRegions"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Image2Characters 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../submodules.html" >Submodule documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, mok.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+  </body>
+</html>

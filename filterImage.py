@@ -1,8 +1,6 @@
 """
 Routines to make image more suitable for area recognition
-
 self.filtered has the image after subsequent operations
-
 to test:  python3 filterImage.py file.jpg
 """
 
@@ -13,6 +11,12 @@ import numpy as np
 
 
 class FilterImage():
+    """
+    Routines to make image more suitable for area recognition
+    self.filtered has the image after subsequent operations
+    to test:  python3 filterImage.py file.jpg
+    """
+    
     def __init__(self, npImage=None):
         """
         image can be read in as numpy array

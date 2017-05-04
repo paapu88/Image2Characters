@@ -1,5 +1,5 @@
 """
-returns rectangles containing possible licence plates from a given image
+Returns rectangles containing possible licence plates from a given image
 for parameters see
 http://docs.opencv.org/3.0-beta/modules/objdetect/doc/cascade_classification.html
 
@@ -16,7 +16,14 @@ import os
 
 
 class DetectPlate():
+    """
+    Returns rectangles containing possible licence plates from a given image
+    for parameters see
+    http://docs.opencv.org/3.0-beta/modules/objdetect/doc/cascade_classification.html
 
+    python3 rekkariDetectionSave.py 0-751.jpg
+    (there must be trained classifiier file, assumption is 'rekkari.xml' )
+"""
     def __init__(self, trainedHaarFileName='rekkari.xml',
                 npImage=None, imageFileName=None,
                 detectFactor=5, scaleFactor=1.03, minSize=(5,18),

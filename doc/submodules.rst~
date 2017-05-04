@@ -1,0 +1,25 @@
+
+.. toctree::
+   :maxdepth: 1
+
+   
+Submodule documentation
+***********************
+
+module image2characters 
+=======================
+.. autosummary::
+   :toctree: generated
+
+   Image2Characters.image2characters.image2Characters
+   
+
+module filterCharacterRegions
+=============================
+.. autosummary::
+   :toctree: generated
+
+   Image2Characters.filterCharacterRegions.FilterCharacterRegions
+
+    
+   

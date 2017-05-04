@@ -25,8 +25,10 @@ import cv2
 
 
 class image2Characters():
-    """ from an input file or yuv numpy array get array of strings representing
-    characters in (a) number plate(s) """
+    """ 
+    from an input file or yuv numpy array get an array of strings 
+    representing characters in (a) number plate(s) 
+    """
     def __init__(self, npImage=None):
         self.img = npImage  # image as numpy array
 

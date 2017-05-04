@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Image2Characters.filterCharacterRegions.FilterCharacterRegions &#8212; Image2Characters 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Image2Characters.myClassifier.Classifier" href="Image2Characters.myClassifier.Classifier.html" />
+    <link rel="prev" title="Image2Characters.filterImage.FilterImage" href="Image2Characters.filterImage.FilterImage.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Image2Characters.myClassifier.Classifier.html" title="Image2Characters.myClassifier.Classifier"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Image2Characters.filterImage.FilterImage.html" title="Image2Characters.filterImage.FilterImage"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Image2Characters 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../submodules.html" accesskey="U">Submodule documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="image2characters-filtercharacterregions-filtercharacterregions">
+<h1>Image2Characters.filterCharacterRegions.FilterCharacterRegions<a class="headerlink" href="#image2characters-filtercharacterregions-filtercharacterregions" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="Image2Characters.filterCharacterRegions.FilterCharacterRegions">
+<em class="property">class </em><code class="descclassname">Image2Characters.filterCharacterRegions.</code><code class="descname">FilterCharacterRegions</code><span class="sig-paren">(</span><em>npImage=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Image2Characters/filterCharacterRegions.html#FilterCharacterRegions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Image2Characters.filterCharacterRegions.FilterCharacterRegions" title="Permalink to this definition">¶</a></dt>
+<dd><p>from one image representing a possible plate get 
+the rectangles in which letters/number are located
+INPUT: gray scale image as numpy array
+OUTPUT: list of possible plates in this image</p>
+<blockquote>
+<div>each possible plate is a list of six rectangles</div></blockquote>
+<dl class="method">
+<dt id="Image2Characters.filterCharacterRegions.FilterCharacterRegions.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>npImage=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Image2Characters/filterCharacterRegions.html#FilterCharacterRegions.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Image2Characters.filterCharacterRegions.FilterCharacterRegions.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>npImage</strong> &#8211; numpy array of image</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#Image2Characters.filterCharacterRegions.FilterCharacterRegions.__init__" title="Image2Characters.filterCharacterRegions.FilterCharacterRegions.__init__"><code class="xref py py-obj docutils literal"><span class="pre">__init__</span></code></a>([npImage])</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param npImage:</th><td class="field-body">numpy array of image</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">checkArea</span></code>([minArea,&nbsp;maxArea])</td>
+<td>letters with too small/large area are killed</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">checkHeight</span></code>([minHeight])</td>
+<td>to short letters are killed</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">checkSameness</span></code>([toleranceInPixel])</td>
+<td>if we have almost the same rectange, kill one of them</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">checkSixXcloseness</span></code>([minFraction,&nbsp;maxFraction])</td>
+<td>check that subsequent rectangles are close/far enought in x-direction</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">checkWidth</span></code>([minWidth,&nbsp;maxWidth])</td>
+<td>to broad or narrow letters are killed</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">descew</span></code>(area)</td>
+<td>descew an image based on contours, works for clean images</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">descew_histo</span></code>(area[,&nbsp;minAng,&nbsp;maxAng])</td>
+<td>descew based on maximising standard deviation</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">determineSetsOfSix</span></code>([heightCriterium])</td>
+<td>get all possible 6-sets of letters that are close each other in height</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">getCharacterRegion</span></code>()</td>
+<td>return the area of six chacters/digits</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">getClone</span></code>()</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">getCurrentSixLists</span></code>()</td>
+<td>current candidates for character regions</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">getFinalListSixLists</span></code>()</td>
+<td>give Final result of character regions for a plate ordered from left to right</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">getInitialRegionsByContours</span></code>()</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">getInitialRegionsFast</span></code>()</td>
+<td><a class="reference external" href="http://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_fast/py_fast.html#fast">http://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_fast/py_fast.html#fast</a></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">getInitialRegionsMser</span></code>()</td>
+<td>get rectangles of possible characters</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">getInitialRegionsSIFT</span></code>()</td>
+<td>surface detection, works only with contributed stuff in opencv3</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">getRegions</span></code>()</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">imageToPlatesWithCharacterRegions</span></code>()</td>
+<td>from a given numpy array representing the image possibly containing licence plate(s),</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">plateChars2CharacterRegions</span></code>()</td>
+<td>from a given numpy array representing the image possibly containing licence plate(s),</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">reset</span></code>([npImage])</td>
+<td>Start from a new image as numpy array</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">setImageFromFile</span></code>(imageFileName[,&nbsp;...])</td>
+<td>for debugging: image can be read from file also</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">showAllRectangles</span></code>([clone,&nbsp;regions])</td>
+<td>show image with current rectangles on it</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">showFinalRectangles</span></code>()</td>
+<td>show image with final rectangles on it</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">showIntermediateRectangles</span></code>()</td>
+<td>show image with current rectangles on it</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">sortSetsAndToList</span></code>()</td>
+<td>sort charactar regions in each plate by x coordinate</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">writeAllRectangles</span></code>([clone,&nbsp;regions])</td>
+<td>write all current rectangles to disk individually</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">writeFinalRectangles</span></code>()</td>
+<td>write final rectangles to disk individually</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">writeIntermediateRectangles</span></code>()</td>
+<td>write all current rectangles to disk individually</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Image2Characters.filterImage.FilterImage.html"
+                        title="previous chapter">Image2Characters.filterImage.FilterImage</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Image2Characters.myClassifier.Classifier.html"
+                        title="next chapter">Image2Characters.myClassifier.Classifier</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/generated/Image2Characters.filterCharacterRegions.FilterCharacterRegions.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Image2Characters.myClassifier.Classifier.html" title="Image2Characters.myClassifier.Classifier"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Image2Characters.filterImage.FilterImage.html" title="Image2Characters.filterImage.FilterImage"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Image2Characters 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../submodules.html" >Submodule documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, mok.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+  </body>
+</html>

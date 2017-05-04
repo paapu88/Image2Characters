@@ -1,5 +1,6 @@
 """
-A collection of methods that find rectangles that may contain characters in a plate
+A collection of methods that find rectangles that 
+may contain characters in a plate
 
 """
 
@@ -11,7 +12,10 @@ import numpy as np
 
 
 class InitialCharacterRegions():
-
+    """
+    A collection of methods that find rectangles that 
+    may contain characters in a plate
+    """
     def __init__(self, npImage=None):
         self.img = npImage  # image as numpy array
         self.mser = cv2.MSER_create(_max_variation=10)

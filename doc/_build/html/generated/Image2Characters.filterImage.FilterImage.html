@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Image2Characters.filterImage.FilterImage &#8212; Image2Characters 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Image2Characters.filterCharacterRegions.FilterCharacterRegions" href="Image2Characters.filterCharacterRegions.FilterCharacterRegions.html" />
+    <link rel="prev" title="Image2Characters.rekkariDetectionSave.DetectPlate" href="Image2Characters.rekkariDetectionSave.DetectPlate.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Image2Characters.filterCharacterRegions.FilterCharacterRegions.html" title="Image2Characters.filterCharacterRegions.FilterCharacterRegions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Image2Characters.rekkariDetectionSave.DetectPlate.html" title="Image2Characters.rekkariDetectionSave.DetectPlate"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Image2Characters 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../submodules.html" accesskey="U">Submodule documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="image2characters-filterimage-filterimage">
+<h1>Image2Characters.filterImage.FilterImage<a class="headerlink" href="#image2characters-filterimage-filterimage" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="Image2Characters.filterImage.FilterImage">
+<em class="property">class </em><code class="descclassname">Image2Characters.filterImage.</code><code class="descname">FilterImage</code><span class="sig-paren">(</span><em>npImage=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Image2Characters/filterImage.html#FilterImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Image2Characters.filterImage.FilterImage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Routines to make image more suitable for area recognition
+self.filtered has the image after subsequent operations
+to test:  python3 filterImage.py file.jpg</p>
+<dl class="method">
+<dt id="Image2Characters.filterImage.FilterImage.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>npImage=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Image2Characters/filterImage.html#FilterImage.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Image2Characters.filterImage.FilterImage.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>image can be read in as numpy array</p>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#Image2Characters.filterImage.FilterImage.__init__" title="Image2Characters.filterImage.FilterImage.__init__"><code class="xref py py-obj docutils literal"><span class="pre">__init__</span></code></a>([npImage])</td>
+<td>image can be read in as numpy array</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">cleanImage</span></code>()</td>
+<td>various trials to clean the image</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">deBlur</span></code>()</td>
+<td>using laplace to get high? frequencies away</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">erosion</span></code>()</td>
+<td><a class="reference external" href="http://docs.opencv.org/3.0-beta/doc/py_tutorials/py_imgproc/py_morphological_ops/py_morphological_ops.html">http://docs.opencv.org/3.0-beta/doc/py_tutorials/py_imgproc/py_morphological_ops/py_morphological_ops.html</a></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">filterAdptiveThreshold</span></code>()</td>
+<td><a class="reference external" href="http://docs.opencv.org/trunk/d7/d4d/tutorial_py_thresholding.html">http://docs.opencv.org/trunk/d7/d4d/tutorial_py_thresholding.html</a></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">filterOtsu</span></code>([d,&nbsp;sigmaColor,&nbsp;dummy])</td>
+<td><a class="reference external" href="http://docs.opencv.org/trunk/d7/d4d/tutorial_py_thresholding.html">http://docs.opencv.org/trunk/d7/d4d/tutorial_py_thresholding.html</a></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">filterOtsuManual</span></code>()</td>
+<td>manually thresholding</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">getClone</span></code>()</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">getFiltered</span></code>()</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">histogram</span></code>()</td>
+<td>calculate histogram based on sum over x-values of the image</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">inPaint</span></code>()</td>
+<td><a class="reference external" href="http://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_photo/py_inpainting/py_inpainting.html#inpainting">http://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_photo/py_inpainting/py_inpainting.html#inpainting</a></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">reduce_colors</span></code>(img,&nbsp;n)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">setImageFromFile</span></code>(imageFileName[,&nbsp;...])</td>
+<td>for debugging: image can be read from file also</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">sharpen1</span></code>()</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">sharpen2</span></code>()</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">showOriginalAndFiltered</span></code>()</td>
+<td>show original and filtered image</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">writeFiltered</span></code>()</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Image2Characters.rekkariDetectionSave.DetectPlate.html"
+                        title="previous chapter">Image2Characters.rekkariDetectionSave.DetectPlate</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Image2Characters.filterCharacterRegions.FilterCharacterRegions.html"
+                        title="next chapter">Image2Characters.filterCharacterRegions.FilterCharacterRegions</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/generated/Image2Characters.filterImage.FilterImage.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Image2Characters.filterCharacterRegions.FilterCharacterRegions.html" title="Image2Characters.filterCharacterRegions.FilterCharacterRegions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Image2Characters.rekkariDetectionSave.DetectPlate.html" title="Image2Characters.rekkariDetectionSave.DetectPlate"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Image2Characters 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../submodules.html" >Submodule documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, mok.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+  </body>
+</html>

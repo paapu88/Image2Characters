@@ -1,0 +1,513 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Image2Characters.filterCharacterRegions &#8212; Image2Characters 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Image2Characters 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for Image2Characters.filterCharacterRegions</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">python3 getCharacterRegions.py image.jpq</span>
+
+
+<span class="sd">Inherits: InitialCharacterRegions which containts methods that produce lots of initial rectangles</span>
+
+<span class="sd">INPUT: lots of rectangles</span>
+<span class="sd">OUTPUT: list of list of rectangles that are suitable for a licence plate</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">initialCharacterRegions</span> <span class="k">import</span> <span class="n">InitialCharacterRegions</span>
+
+
+<div class="viewcode-block" id="FilterCharacterRegions"><a class="viewcode-back" href="../../generated/Image2Characters.filterCharacterRegions.FilterCharacterRegions.html#Image2Characters.filterCharacterRegions.FilterCharacterRegions">[docs]</a><span class="k">class</span> <span class="nc">FilterCharacterRegions</span><span class="p">(</span><span class="n">InitialCharacterRegions</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    from one image representing a possible plate get </span>
+<span class="sd">    the rectangles in which letters/number are located</span>
+<span class="sd">    INPUT: gray scale image as numpy array</span>
+<span class="sd">    OUTPUT: list of possible plates in this image</span>
+<span class="sd">            each possible plate is a list of six rectangles</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="FilterCharacterRegions.__init__"><a class="viewcode-back" href="../../generated/Image2Characters.filterCharacterRegions.FilterCharacterRegions.html#Image2Characters.filterCharacterRegions.FilterCharacterRegions.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">npImage</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param npImage: numpy array of image</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">InitialCharacterRegions</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">npImage</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">img</span> <span class="o">=</span> <span class="n">npImage</span>  <span class="c1"># image as numpy array</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mser</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">MSER_create</span><span class="p">(</span><span class="n">_max_variation</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">regions</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">npImage</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">imageY</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">imageX</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">listOfSixSets</span> <span class="o">=</span> <span class="p">[]</span>   <span class="c1"># list of sets, each set has 6 rectangles</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">listOfSixLists</span> <span class="o">=</span> <span class="kc">None</span>   <span class="c1"># list of lists, each set has 6 rectangles</span></div>
+        <span class="c1">#print(&quot;x y : &quot;,self.imageX, self.imageY)</span>
+
+
+    <span class="k">def</span> <span class="nf">setImageFromFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">imageFileName</span><span class="p">,</span> <span class="n">colorConversion</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2GRAY</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; for debugging: image can be read from file also&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">imageFileName</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">img</span><span class="p">,</span> <span class="n">colorConversion</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">imageY</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">imageX</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">npImage</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Start from a new image as numpy array</span>
+<span class="sd">        :param npImage: : numpy array of image</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">img</span> <span class="o">=</span> <span class="n">npImage</span>  <span class="c1"># image as numpy array</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">regions</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">npImage</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">imageY</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">imageX</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">listOfSixSets</span> <span class="o">=</span> <span class="p">[]</span>   <span class="c1"># list of sets, each set has 6 rectangles</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">listOfSixLists</span> <span class="o">=</span> <span class="kc">None</span>   <span class="c1"># list of lists, each set has 6 rectangles</span>
+
+
+    <span class="k">def</span> <span class="nf">getClone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">checkHeight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">minHeight</span><span class="o">=</span><span class="mf">0.2</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; to short letters are killed&quot;&quot;&quot;</span>
+        <span class="n">ok</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">h</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">h</span> <span class="o">&gt;</span> <span class="n">minHeight</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">imageY</span><span class="p">:</span>
+                <span class="n">ok</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">h</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">regions</span> <span class="o">=</span> <span class="n">ok</span>
+
+    <span class="k">def</span> <span class="nf">checkWidth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">minWidth</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">maxWidth</span><span class="o">=</span><span class="mf">0.16</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; to broad or narrow letters are killed&quot;&quot;&quot;</span>
+        <span class="n">ok</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">h</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">w</span> <span class="o">&gt;</span> <span class="n">minWidth</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">imageX</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">w</span> <span class="o">&lt;</span> <span class="n">maxWidth</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">imageX</span><span class="p">):</span>
+                <span class="n">ok</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">h</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">regions</span> <span class="o">=</span> <span class="n">ok</span>
+
+    <span class="k">def</span> <span class="nf">checkArea</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">minArea</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span> <span class="n">maxArea</span><span class="o">=</span><span class="mf">0.2</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;letters with too small/large area are killed&quot;&quot;&quot;</span>
+        <span class="n">ok</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">imageArea</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imageX</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">imageY</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">h</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">:</span>
+            <span class="n">area</span><span class="o">=</span><span class="n">w</span><span class="o">*</span><span class="n">h</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">area</span> <span class="o">&gt;</span> <span class="n">minArea</span> <span class="o">*</span> <span class="n">imageArea</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">area</span> <span class="o">&lt;</span> <span class="n">maxArea</span> <span class="o">*</span> <span class="n">imageArea</span><span class="p">):</span>
+                <span class="n">ok</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">h</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">regions</span> <span class="o">=</span> <span class="n">ok</span>
+
+    <span class="k">def</span> <span class="nf">checkSameness</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">toleranceInPixel</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; if we have almost the same rectange, kill one of them</span>
+<span class="sd">            the remaining rectangle is the bigger one.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">toleranceInPixel</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">toleranceInPixel</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">imageX</span> <span class="o">/</span> <span class="mi">7</span><span class="p">)</span> <span class="o">/</span> <span class="mi">5</span><span class="p">))</span>  <span class="c1"># default tolerance one fifth of one character space</span>
+        <span class="n">deletes</span><span class="o">=</span><span class="p">[]</span>
+        <span class="c1"># we must change list of tuples to list of lists in order to modify an individual rectangle</span>
+        <span class="c1"># (tuples are needed for items in sets)</span>
+        <span class="n">regionsAsLists</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">region_i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">):</span>
+            <span class="n">delete_i</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="c1">#print(&quot;A&quot;, i, region_i,len(self.regions))</span>
+            <span class="n">start</span><span class="o">=</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">)):</span>
+                <span class="c1">#print(&quot;B&quot;,j,self.regions[j])</span>
+                <span class="p">[</span><span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">,</span><span class="n">w1</span><span class="p">,</span><span class="n">h1</span><span class="p">]</span> <span class="o">=</span> <span class="n">region_i</span>
+                <span class="p">[</span><span class="n">x2</span><span class="p">,</span><span class="n">y2</span><span class="p">,</span><span class="n">w2</span><span class="p">,</span><span class="n">h2</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                <span class="k">if</span> <span class="p">((</span><span class="nb">abs</span><span class="p">(</span><span class="n">x2</span><span class="o">-</span><span class="n">x1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">toleranceInPixel</span><span class="p">)</span> <span class="ow">and</span> \
+                    <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">y2</span><span class="o">-</span><span class="n">y1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">toleranceInPixel</span><span class="p">)</span> <span class="ow">and</span> \
+                            <span class="p">((</span><span class="n">w1</span><span class="o">*</span><span class="n">h1</span><span class="p">)</span><span class="o">&lt;</span><span class="p">(</span><span class="n">w2</span><span class="o">*</span><span class="n">h2</span><span class="p">))):</span>
+                    <span class="n">delete_i</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">deletes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">delete_i</span><span class="p">)</span>
+        <span class="n">ok</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">delete</span><span class="p">,</span> <span class="n">region</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">deletes</span><span class="p">,</span> <span class="n">regionsAsLists</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">delete</span><span class="p">:</span>
+                <span class="n">ok</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">region</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">regions</span> <span class="o">=</span> <span class="n">ok</span>
+
+    <span class="k">def</span> <span class="nf">determineSetsOfSix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">heightCriterium</span><span class="o">=</span><span class="mf">0.12</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; get all possible 6-sets of letters that are close each other in height&quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">itertools</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">listOfSixSets</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">mymin</span><span class="o">=</span><span class="mi">1</span><span class="o">-</span><span class="n">heightCriterium</span>
+        <span class="n">mymax</span><span class="o">=</span><span class="mi">1</span><span class="o">+</span><span class="n">heightCriterium</span>
+        <span class="c1">#print(&quot;regions: &quot;, self.regions)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">)):</span>
+            <span class="n">heightI</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span>
+            <span class="n">sixSet</span><span class="o">=</span><span class="nb">set</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+            <span class="c1">#print(&#39;ini:&#39;, sixSet)</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">)):</span>
+                <span class="n">heightJ</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">mymin</span> <span class="o">&lt;</span> <span class="n">heightJ</span><span class="o">/</span><span class="n">heightI</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">mymax</span> <span class="o">&gt;</span> <span class="n">heightJ</span><span class="o">/</span><span class="n">heightI</span><span class="p">):</span>
+                    <span class="n">sixSet</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+                    <span class="c1">#print(i, j, heightJ / heightI)</span>
+            <span class="c1"># check that number of rectangles is six and this set of rectangles is new</span>
+            <span class="c1">#print(&quot;I, LEN SET&quot;,i, len(sixSet))</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sixSet</span><span class="p">)</span> <span class="o">==</span> <span class="mi">6</span> <span class="ow">and</span> <span class="ow">not</span><span class="p">(</span><span class="n">sixSet</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">listOfSixSets</span><span class="p">):</span>
+                <span class="c1">#print(&quot;sixset: &quot;, sixSet)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">listOfSixSets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sixSet</span><span class="p">)</span>
+                <span class="c1"># if we have a longer set, take all 6-permutations..</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">sixSet</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">6</span><span class="p">:</span>
+                <span class="c1">#print(&quot;adding &gt;6 set:&quot;, sixSet)</span>
+                <span class="n">myFixedSet</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">sixSet</span><span class="p">)</span>
+                <span class="n">sixSetTrials</span><span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">permutations</span><span class="p">(</span><span class="n">myFixedSet</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+                <span class="c1">#print(&quot;sixSetTrials: &quot;,sixSetTrials)</span>
+                <span class="k">for</span> <span class="n">addSet</span> <span class="ow">in</span> <span class="n">sixSetTrials</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">addSet</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">listOfSixSets</span><span class="p">):</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">listOfSixSets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">addSet</span><span class="p">))</span>
+
+
+    <span class="k">def</span> <span class="nf">sortSetsAndToList</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;sort charactar regions in each plate by x coordinate&quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+        <span class="n">ok</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">listOfSixLists</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">currentSet</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">listOfSixSets</span><span class="p">:</span>
+            <span class="n">mykeys</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">listCurrentSet</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">currentSet</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">rectangle</span> <span class="ow">in</span> <span class="n">listCurrentSet</span><span class="p">:</span>
+                <span class="n">mykeys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rectangle</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">np_mykeys</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">mykeys</span><span class="p">)</span>
+            <span class="n">sorted_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">np_mykeys</span><span class="p">)</span>
+            <span class="c1">#listCurrentSet = listCurrentSet[sorted_idx]</span>
+            <span class="c1">#self.listOfSixLists.append(list(currentSet)[sorted_idx])</span>
+            <span class="c1">#print(&quot;SORT:&quot;,sorted_idx)</span>
+            <span class="nb">sorted</span><span class="o">=</span><span class="p">[]</span>
+            <span class="k">for</span> <span class="n">isort</span> <span class="ow">in</span> <span class="n">sorted_idx</span><span class="p">:</span>
+                <span class="nb">sorted</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">listCurrentSet</span><span class="p">[</span><span class="n">isort</span><span class="p">])</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">listOfSixLists</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">sorted</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">checkSixXcloseness</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">minFraction</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">maxFraction</span><span class="o">=</span><span class="mf">0.8</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;check that subsequent rectangles are close/far enought in x-direction</span>
+<span class="sd">            if NOT remove the 6-rectangle</span>
+<span class="sd">            we compare the difference in x-direction of the characters</span>
+<span class="sd">            to the avereage height of the characters&quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+        <span class="n">deletePlate</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">plate</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">listOfSixLists</span><span class="p">:</span>
+            <span class="n">averageHeight</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">plate</span><span class="p">[:][</span><span class="mi">3</span><span class="p">]))</span>
+            <span class="c1">#print(&quot;AVERAGE Height:&quot;, averageHeight, plate)</span>
+            <span class="k">if</span> <span class="p">((</span><span class="n">plate</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">plate</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">minFraction</span> <span class="o">*</span> <span class="n">averageHeight</span><span class="p">)</span> <span class="ow">or</span> \
+                <span class="p">(</span><span class="n">plate</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">plate</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">minFraction</span> <span class="o">*</span> <span class="n">averageHeight</span><span class="p">)</span> <span class="ow">or</span> \
+                <span class="p">(</span><span class="n">plate</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">plate</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">minFraction</span> <span class="o">*</span> <span class="n">averageHeight</span><span class="p">)</span> <span class="ow">or</span> \
+                <span class="p">(</span><span class="n">plate</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">plate</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">minFraction</span> <span class="o">*</span> <span class="n">averageHeight</span><span class="p">)</span> <span class="ow">or</span> \
+                <span class="p">(</span><span class="n">plate</span><span class="p">[</span><span class="mi">5</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">plate</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">minFraction</span> <span class="o">*</span> <span class="n">averageHeight</span><span class="p">)</span> <span class="ow">or</span> \
+                <span class="p">(</span><span class="n">plate</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">plate</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">maxFraction</span> <span class="o">*</span> <span class="n">averageHeight</span><span class="p">)</span> <span class="ow">or</span> \
+                <span class="p">(</span><span class="n">plate</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">plate</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">maxFraction</span> <span class="o">*</span> <span class="n">averageHeight</span><span class="p">)</span> <span class="ow">or</span> \
+                <span class="c1">#(plate[3][0] - plate[2][0]) &gt; (maxFraction*averageHeight) or \ not for &#39;-&#39;</span>
+                <span class="p">(</span><span class="n">plate</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">plate</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">maxFraction</span> <span class="o">*</span> <span class="n">averageHeight</span><span class="p">)</span> <span class="ow">or</span> \
+                <span class="p">(</span><span class="n">plate</span><span class="p">[</span><span class="mi">5</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">plate</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">maxFraction</span> <span class="o">*</span> <span class="n">averageHeight</span><span class="p">)):</span>
+                <span class="n">deletePlate</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">deletePlate</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">accepted</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">delete</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">deletePlate</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">delete</span><span class="p">:</span>
+                <span class="n">accepted</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">listOfSixLists</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">listOfSixLists</span> <span class="o">=</span> <span class="n">accepted</span>
+
+    <span class="k">def</span> <span class="nf">getCurrentSixLists</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; current candidates for character regions&quot;&quot;&quot;</span>
+        <span class="c1">#print(&quot;current list of list(s)/set(s)&quot;)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">listOfSixLists</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">listOfSixSets</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">listOfSixLists</span>
+
+    <span class="k">def</span> <span class="nf">writeIntermediateRectangles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; write all current rectangles to disk individually &quot;&quot;&quot;</span>
+        <span class="n">clone</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getClone</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">h</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">):</span>
+            <span class="n">roi_gray</span> <span class="o">=</span> <span class="n">clone</span><span class="p">[</span><span class="n">y</span><span class="p">:</span><span class="n">y</span><span class="o">+</span><span class="n">h</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="o">+</span><span class="n">w</span><span class="p">]</span>
+            <span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;-&#39;</span><span class="o">+</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;.tif&#39;</span><span class="p">,</span> <span class="n">roi_gray</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">showIntermediateRectangles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; show image with current rectangles on it&quot;&quot;&quot;</span>
+        <span class="n">clone</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getClone</span><span class="p">()</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">h</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">:</span>
+            <span class="n">cv2</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(</span><span class="n">clone</span><span class="p">,(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),(</span><span class="n">x</span><span class="o">+</span><span class="n">w</span><span class="p">,</span><span class="n">y</span><span class="o">+</span><span class="n">h</span><span class="p">),(</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">),</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">clone</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">interpolation</span> <span class="o">=</span> <span class="s1">&#39;bicubic&#39;</span><span class="p">)</span>
+        <span class="c1">#plt.imshow(clone)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([]),</span> <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>  <span class="c1"># to hide tick values on X and Y axis</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+
+    <span class="k">def</span> <span class="nf">writeFinalRectangles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; write final rectangles to disk individually &quot;&quot;&quot;</span>
+        <span class="n">clone</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getClone</span><span class="p">()</span>
+        <span class="n">i</span><span class="o">=</span><span class="mi">0</span>
+        <span class="k">for</span> <span class="n">candidatePlate</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">listOfSixLists</span><span class="p">:</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">h</span><span class="p">)</span> <span class="ow">in</span> <span class="n">candidatePlate</span><span class="p">:</span>
+                <span class="n">roi_gray</span> <span class="o">=</span> <span class="n">clone</span><span class="p">[</span><span class="n">y</span><span class="p">:</span><span class="n">y</span><span class="o">+</span><span class="n">h</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="o">+</span><span class="n">w</span><span class="p">]</span>
+                <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;writing &quot;</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;-&#39;</span><span class="o">+</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">:]</span><span class="o">+</span><span class="s1">&#39;.tif&#39;</span><span class="p">)</span>
+                <span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;-&#39;</span><span class="o">+</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">:]</span><span class="o">+</span><span class="s1">&#39;.tif&#39;</span><span class="p">,</span> <span class="n">roi_gray</span><span class="p">)</span>
+                <span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">showFinalRectangles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; show image with final rectangles on it&quot;&quot;&quot;</span>
+        <span class="n">clone</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getClone</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">candidatePlate</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">listOfSixLists</span><span class="p">:</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">h</span><span class="p">)</span> <span class="ow">in</span> <span class="n">candidatePlate</span><span class="p">:</span>
+                <span class="n">cv2</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(</span><span class="n">clone</span><span class="p">,(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),(</span><span class="n">x</span><span class="o">+</span><span class="n">w</span><span class="p">,</span><span class="n">y</span><span class="o">+</span><span class="n">h</span><span class="p">),(</span><span class="mi">0</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;Final Rectangles&#39;</span><span class="p">,</span> <span class="n">clone</span><span class="p">)</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">()</span><span class="o">!=</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">)):</span>
+            <span class="k">continue</span>
+
+    <span class="k">def</span> <span class="nf">getFinalListSixLists</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; give Final result of character regions for a plate ordered from left to right&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">listOfSixLists</span>
+
+    <span class="k">def</span> <span class="nf">getCharacterRegion</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;return the area of six chacters/digits&quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">listOfSixLists</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">listOfSixLists</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">x1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">listOfSixLists</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">x2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">listOfSixLists</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">5</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">listOfSixLists</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">5</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">y1</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">listOfSixLists</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">listOfSixLists</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">5</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">y2</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">listOfSixLists</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">listOfSixLists</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">3</span><span class="p">],</span>
+                 <span class="bp">self</span><span class="o">.</span><span class="n">listOfSixLists</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">5</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">listOfSixLists</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">5</span><span class="p">][</span><span class="mi">3</span><span class="p">])</span>
+        <span class="n">area</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getClone</span><span class="p">()[</span><span class="n">y1</span><span class="p">:</span><span class="n">y2</span><span class="p">,</span> <span class="n">x1</span><span class="p">:</span><span class="n">x2</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">area</span>
+
+    <span class="k">def</span> <span class="nf">descew</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">area</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; descew an image based on contours, works for clean images &quot;&quot;&quot;</span>
+
+        <span class="c1"># convert the image to grayscale and flip the foreground</span>
+        <span class="c1"># and background to ensure foreground is now &quot;white&quot; and</span>
+        <span class="c1"># the background is &quot;black&quot;</span>
+        <span class="c1">#gray = cv2.cvtColor(area, cv2.COLOR_BGR2GRAY)</span>
+        <span class="n">gray</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">bitwise_not</span><span class="p">(</span><span class="n">area</span><span class="p">)</span>
+
+        <span class="c1"># threshold the image, setting all foreground pixels to</span>
+        <span class="c1"># 255 and all background pixels to 0</span>
+        <span class="n">thresh</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span><span class="n">gray</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span>
+            <span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY</span> <span class="o">|</span> <span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_OTSU</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="c1"># grab the (x, y) coordinates of all pixel values that</span>
+        <span class="c1"># are greater than zero, then use these coordinates to</span>
+        <span class="c1"># compute a rotated bounding box that contains all</span>
+        <span class="c1"># coordinates</span>
+        <span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">thresh</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">minAreaRect</span><span class="p">(</span><span class="n">coords</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="c1"># the `cv2.minAreaRect` function returns values in the</span>
+        <span class="c1"># range [-90, 0); as the rectangle rotates clockwise the</span>
+        <span class="c1"># returned angle trends to 0 -- in this special case we</span>
+        <span class="c1"># need to add 90 degrees to the angle</span>
+        <span class="k">if</span> <span class="n">angle</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">45</span><span class="p">:</span>
+            <span class="n">angle</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="mi">90</span> <span class="o">+</span> <span class="n">angle</span><span class="p">)</span>
+        <span class="c1"># otherwise, just take the inverse of the angle to make</span>
+        <span class="c1"># it positive</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">angle</span> <span class="o">=</span> <span class="o">-</span><span class="n">angle</span>
+            <span class="c1"># rotate the image to deskew it</span>
+        <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span> <span class="o">=</span> <span class="n">area</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">center</span> <span class="o">=</span> <span class="p">(</span><span class="n">w</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">h</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">M</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">getRotationMatrix2D</span><span class="p">(</span><span class="n">center</span><span class="p">,</span> <span class="n">angle</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+        <span class="n">rotated</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">warpAffine</span><span class="p">(</span><span class="n">area</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">),</span>
+            <span class="n">flags</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">INTER_CUBIC</span><span class="p">,</span> <span class="n">borderMode</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">BORDER_REPLICATE</span><span class="p">)</span>
+
+        <span class="c1"># draw the correction angle on the image so we can validate it</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span><span class="n">rotated</span><span class="p">,</span> <span class="s2">&quot;Angle: </span><span class="si">{:.2f}</span><span class="s2"> degrees&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span>
+            <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span> <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="c1"># show the output image</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[INFO] angle: </span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">angle</span><span class="p">))</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s2">&quot;Input&quot;</span><span class="p">,</span> <span class="n">area</span><span class="p">)</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s2">&quot;Rotated&quot;</span><span class="p">,</span> <span class="n">rotated</span><span class="p">)</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rotated</span>
+
+    <span class="k">def</span> <span class="nf">descew_histo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">area</span><span class="p">,</span> <span class="n">minAng</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span> <span class="n">maxAng</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; descew based on maximising standard deviation&quot;&quot;&quot;</span>
+
+        <span class="kn">from</span> <span class="nn">filterImage</span> <span class="k">import</span> <span class="n">FilterImage</span>
+        <span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">interpolate</span>
+
+        <span class="n">gray</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">bitwise_not</span><span class="p">(</span><span class="n">area</span><span class="p">)</span>
+
+        <span class="c1"># threshold the image, setting all foreground pixels to</span>
+        <span class="c1"># 255 and all background pixels to 0</span>
+        <span class="n">thresh</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span><span class="n">gray</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span>
+            <span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY</span> <span class="o">|</span> <span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_OTSU</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="n">rows</span><span class="p">,</span><span class="n">cols</span> <span class="o">=</span> <span class="n">thresh</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">angles</span><span class="o">=</span><span class="p">[]</span>
+        <span class="n">clone</span><span class="o">=</span><span class="n">thresh</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="c1">#rotate image</span>
+        <span class="k">for</span> <span class="n">angle</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">minAng</span><span class="p">,</span> <span class="n">maxAng</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">maxAng</span><span class="p">)</span><span class="o">+</span><span class="nb">abs</span><span class="p">(</span><span class="n">minAng</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">))):</span>
+            <span class="n">M</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">getRotationMatrix2D</span><span class="p">((</span><span class="n">cols</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">rows</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="n">angle</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">dst</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">warpAffine</span><span class="p">(</span><span class="n">clone</span><span class="p">,</span><span class="n">M</span><span class="p">,(</span><span class="n">cols</span><span class="p">,</span><span class="n">rows</span><span class="p">),</span><span class="n">borderMode</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">BORDER_CONSTANT</span><span class="p">,</span> <span class="n">borderValue</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">hist</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">hist</span><span class="p">))</span>
+            <span class="n">angles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+            <span class="n">weights</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">hist</span><span class="p">))</span>
+            <span class="n">xhist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">hist</span><span class="p">))</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">interpolate</span><span class="o">.</span><span class="n">interp1d</span><span class="p">(</span><span class="n">angles</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+        <span class="n">angles_tight</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">minAng</span><span class="p">,</span> <span class="n">maxAng</span><span class="p">,</span> <span class="mi">1</span><span class="o">+</span><span class="mi">10</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">maxAng</span><span class="p">)</span><span class="o">+</span><span class="nb">abs</span><span class="p">(</span><span class="n">minAng</span><span class="p">))))</span>
+        <span class="n">faas</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">angles_tight</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">myas</span><span class="p">,</span><span class="n">fs</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">angles_tight</span><span class="p">,</span><span class="n">faas</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">myas</span><span class="p">,</span><span class="n">fs</span><span class="p">)</span>
+        <span class="n">angle</span><span class="o">=</span><span class="n">angles_tight</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">faas</span><span class="p">)]</span>
+        <span class="n">M</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">getRotationMatrix2D</span><span class="p">((</span><span class="n">cols</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">rows</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="n">angle</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">dst</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">warpAffine</span><span class="p">(</span><span class="n">area</span><span class="p">,</span><span class="n">M</span><span class="p">,(</span><span class="n">cols</span><span class="p">,</span><span class="n">rows</span><span class="p">))</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">interpolation</span> <span class="o">=</span> <span class="s1">&#39;bicubic&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">area</span>
+
+
+    <span class="k">def</span> <span class="nf">imageToPlatesWithCharacterRegions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;from a given numpy array representing the image possibly containing licence plate(s),</span>
+<span class="sd">        returns a list of possible plates</span>
+<span class="sd">                each possible plate is a list of six rectangles&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">getInitialRegionsMser</span><span class="p">()</span>
+        <span class="c1">#self.showIntermediateRectangles()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkHeight</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkWidth</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkArea</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkSameness</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">determineSetsOfSix</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sortSetsAndToList</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkSixXcloseness</span><span class="p">()</span>
+        <span class="c1">#self.writeFinalRectangles()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getFinalListSixLists</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">plateChars2CharacterRegions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;from a given numpy array representing the image possibly containing licence plate(s),</span>
+<span class="sd">        returns a list of possible plates</span>
+<span class="sd">                each possible plate is a list of six rectangles&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">getInitialRegionsMser</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkHeight</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkWidth</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkArea</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkSameness</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">determineSetsOfSix</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sortSetsAndToList</span><span class="p">()</span>
+        <span class="c1">##self.showIntermediateRectangles()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkSixXcloseness</span><span class="p">()</span>
+        <span class="c1">##self.writeFinalRectangles()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getFinalListSixLists</span><span class="p">()</span></div>
+
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">sys</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="n">FilterCharacterRegions</span><span class="p">()</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">setImageFromFile</span><span class="p">(</span><span class="n">imageFileName</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">plateChars2CharacterRegions</span><span class="p">()</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">writeFinalRectangles</span><span class="p">()</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">showFinalRectangles</span><span class="p">()</span>
+    <span class="n">area</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">getCharacterRegion</span><span class="p">()</span>
+    <span class="n">area</span><span class="o">=</span><span class="n">app</span><span class="o">.</span><span class="n">descew_histo</span><span class="p">(</span><span class="n">area</span><span class="p">)</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">area</span><span class="p">)</span>
+    <span class="c1">#app.cleanImage()</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">getInitialRegionsMser</span><span class="p">()</span>
+    <span class="c1">#app.getInitialRegionsByContours()</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">showIntermediateRectangles</span><span class="p">()</span>
+    <span class="c1">#sys.exit()</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">checkHeight</span><span class="p">()</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">checkWidth</span><span class="p">()</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">checkArea</span><span class="p">()</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">showIntermediateRectangles</span><span class="p">()</span>
+
+    <span class="n">app</span><span class="o">.</span><span class="n">checkSameness</span><span class="p">()</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">determineSetsOfSix</span><span class="p">()</span>
+    <span class="c1">#print(&quot;LIST OF RECTANGLE CANDIDATES&quot;,app.listOfSixSets)</span>
+    <span class="c1">#print(&quot;end of candidates&quot;)</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">sortSetsAndToList</span><span class="p">()</span>
+    <span class="c1">#app.showRectangles()</span>
+    <span class="c1">#print(&quot;LIST OF SORTED RECTANGLE CANDIDATES&quot;, app.listOfSixLists)</span>
+    <span class="c1">#print(&quot;end of SORTED candidates&quot;)</span>
+    <span class="c1">#app.showRectangles()</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">checkSixXcloseness</span><span class="p">()</span>
+    <span class="c1">#print(&quot;FINAL LIST OF SORTED RECTANGLE CANDIDATES&quot;,app.listOfSixLists)</span>
+    <span class="c1">#print(&quot;end of SORTED candidates&quot;)</span>
+    <span class="n">clone</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">getClone</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">sixList</span> <span class="ow">in</span> <span class="n">app</span><span class="o">.</span><span class="n">listOfSixLists</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">h</span><span class="p">]</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sixList</span><span class="p">):</span>
+            <span class="n">cv2</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(</span><span class="n">clone</span><span class="p">,(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),(</span><span class="n">x</span><span class="o">+</span><span class="n">w</span><span class="p">,</span><span class="n">y</span><span class="o">+</span><span class="n">h</span><span class="p">),(</span><span class="mi">0</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="mi">5</span><span class="p">)</span>
+            <span class="n">roi_gray</span> <span class="o">=</span> <span class="n">clone</span><span class="p">[</span><span class="n">y</span><span class="p">:</span><span class="n">y</span><span class="o">+</span><span class="n">h</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="o">+</span><span class="n">w</span><span class="p">]</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;img&#39;</span><span class="p">,</span> <span class="n">clone</span><span class="p">)</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">()</span><span class="o">!=</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">)):</span>
+        <span class="k">continue</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Image2Characters 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, mok.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+  </body>
+</html>
