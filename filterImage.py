@@ -39,6 +39,11 @@ class FilterImage():
         self.imageX = self.img.shape[1]
         self.filtered = self.img.copy()
 
+    def setNumpyImage(self, image):
+        """
+        set image from numpy array
+        """
+        self.img = image
 
     def getClone(self):
         return self.img.copy()
@@ -177,8 +182,14 @@ class FilterImage():
 
     def histogram(self):
         """calculate histogram based on sum over x-values of the image"""
+        clone = self.getClone()
+        fig = plt.figure()
+        a=fig.add_subplot(1,2,1)
+        imgplot = plt.imshow(clone, cmap = 'gray', interpolation = 'bicubic')
+        a.set_title('Before')
+        a=fig.add_subplot(1,2,2)
         y=np.sum(self.getClone(),axis=1)
-        plt.hist(y, bins='auto')  # plt.hist passes it's arguments to np.histogram
+        plt.plot(y)  # plt.hist passes it's arguments to np.histogram
         plt.title("Histogram with 'auto' bins")
         plt.show()
 
@@ -201,16 +212,19 @@ class FilterImage():
 
 if __name__ == '__main__':
     import sys
+    from filterCharacterRegions import FilterCharacterRegions
     app = FilterImage()
     app.setImageFromFile(imageFileName=sys.argv[1])
-    #app.histogram()
-    app.erosion()
+    app.filterOtsu()
+    app2 = FilterCharacterRegions()
+    app.setNumpyImage(app2.descew_histo(area=app.getClone()))
+    app.histogram()
+    #app.erosion()
     #app.sharpen2()
     #app.inPaint()
     #app.deBlur()
-    app.filterAdptiveThreshold()
-    #app.filterOtsu()
+    #app.filterAdptiveThreshold()
     #app.filterOtsuManual()
     #app.cleanImage()
-    app.showOriginalAndFiltered()
-    app.writeFiltered()
+    #app.showOriginalAndFiltered()
+    #app.writeFiltered()

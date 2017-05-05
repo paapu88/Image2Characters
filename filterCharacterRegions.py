@@ -346,9 +346,9 @@ class FilterCharacterRegions(InitialCharacterRegions):
             print(myas,fs)
         angle=angles_tight[np.argmax(faas)]
         M = cv2.getRotationMatrix2D((cols/2,rows/2),angle,1)
-        dst = cv2.warpAffine(area,M,(cols,rows))
-        plt.imshow(dst, cmap = 'gray', interpolation = 'bicubic')
-        plt.show()
+        #dst = cv2.warpAffine(area,M,(cols,rows))
+        #plt.imshow(dst, cmap = 'gray', interpolation = 'bicubic')
+        #plt.show()
         return area
 
 
