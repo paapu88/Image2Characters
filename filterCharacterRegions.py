@@ -46,6 +46,12 @@ class FilterCharacterRegions(InitialCharacterRegions):
         self.imageY = self.img.shape[0]
         self.imageX = self.img.shape[1]
 
+    def setNumpyImage(self, image):
+        """
+        set image from numpy array
+        """
+        self.img = image
+
     def reset(self, npImage=None):
         """
         Start from a new image as numpy array

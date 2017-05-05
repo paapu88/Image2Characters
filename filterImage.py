@@ -211,6 +211,7 @@ class FilterImage():
         angles_tight = np.linspace(minAng, maxAng, 1+10*int(round(abs(maxAng)+abs(minAng))))
         faas = f(angles_tight)
         angle=angles_tight[np.argmax(faas)]
+        print("rotated by:", angle)
         M = cv2.getRotationMatrix2D((cols/2,rows/2),angle,1)
         dst = cv2.warpAffine(clone,M,(cols,rows))
 
@@ -224,30 +225,32 @@ class FilterImage():
         #plt.show()
         #plt.xticks([]), plt.yticks([])  # to hide tick values on X and Y axis
         # set the rotated image to be the current image
-        self.setNumpyImage(dst)
+        self.filtered = dst
 
     def cut_plate_peaks_inY(self):
         """get the two peaks in Y correspoinding the two white stripes in plate, cut the plate along the two stripes"""
         clone = self.filtered.copy()
         # get the peaks in intensity
         y=np.sum(clone,axis=1)
+        yhat = signal.savgol_filter(y, 25, 3)
         #y=self.descew(y)
-        peaks = signal.find_peaks_cwt(y, np.arange(10,20))
-        #print(peaks)
-        mymax = []
-        for peak in peaks:
-            mymax.append(y[peak])
+        # for local maxima
+        peak_indexes = signal.argrelextrema(yhat, np.greater)[0]
+        print(peak_indexes)
+        peaks = []
+        for peak_index in peak_indexes:
+            peaks.append(yhat[peak_index])
         # get biggest value first
-        mymax, peaks = zip(*sorted(zip(mymax, peaks)))
-        #print(mymax)
-        plt.plot(y)
-        plt.title("vertical intensities")
+        peaks, peak_indexes = zip(*sorted(zip(peaks, peak_indexes)))
+        print(peaks, peak_indexes)
+        plt.plot(yhat)
+        plt.title("horizontal intensities")
         plt.show()
         # cut in y direction
-        if peaks[-2]<peaks[-1]:
-            cutted = clone[peaks[-2]:peaks[-1],:]
+        if peak_indexes[-2]<peak_indexes[-1]:
+            cutted = clone[peak_indexes[-2]:peak_indexes[-1],:]
         else:
-            cutted = clone[peaks[-1]:peaks[-2],:]
+            cutted = clone[peak_indexes[-1]:peak_indexes[-2],:]
         #plt.imshow(cutted, cmap = 'gray', interpolation = 'bicubic')
         #plt.show()
         self.filtered = cutted
@@ -258,16 +261,18 @@ class FilterImage():
         clone = self.filtered.copy()
         # get the peaks in intensity
         x=np.sum(clone,axis=0)
+        xhat = signal.savgol_filter(x, 35, 3)
         #x = self.descew(x)
-        peak_indexes = signal.find_peaks_cwt(x, np.arange(10,20))
+        #peak_indexes = signal.find_peaks_cwt(x, np.arange(10,20))
+        peak_indexes = signal.argrelextrema(xhat, np.greater)[0]
         #print(peaks)
         peaks = []
         for peak_index in peak_indexes:
-            peaks.append(x[peak_index])
+            peaks.append(xhat[peak_index])
         # get biggest value first
         peaks, peak_indexes = zip(*sorted(zip(peaks, peak_indexes)))
         print(peaks, peak_indexes)
-        plt.plot(x)  # plt.hist passes it's arguments to np.histogram
+        plt.plot(xhat)  # plt.hist passes it's arguments to np.histogram
         plt.title("vertical intensities")
         plt.show()
         avg=(peaks[-2]+peaks[-1])/2

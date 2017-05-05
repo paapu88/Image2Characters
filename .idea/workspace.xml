@@ -1,26 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="92df4fd9-bf68-4084-a4c7-ca864f5588d0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/_build/doctrees/environment.pickle" afterPath="$PROJECT_DIR$/doc/_build/doctrees/environment.pickle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/_build/doctrees/generated/Image2Characters.filterCharacterRegions.FilterCharacterRegions.doctree" afterPath="$PROJECT_DIR$/doc/_build/doctrees/generated/Image2Characters.filterCharacterRegions.FilterCharacterRegions.doctree" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/_build/doctrees/generated/Image2Characters.filterImage.FilterImage.doctree" afterPath="$PROJECT_DIR$/doc/_build/doctrees/generated/Image2Characters.filterImage.FilterImage.doctree" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/_build/doctrees/generated/Image2Characters.image2characters.image2Characters.doctree" afterPath="$PROJECT_DIR$/doc/_build/doctrees/generated/Image2Characters.image2characters.image2Characters.doctree" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/_build/doctrees/generated/Image2Characters.myClassifier.Classifier.doctree" afterPath="$PROJECT_DIR$/doc/_build/doctrees/generated/Image2Characters.myClassifier.Classifier.doctree" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/_build/doctrees/generated/Image2Characters.rekkariDetectionSave.DetectPlate.doctree" afterPath="$PROJECT_DIR$/doc/_build/doctrees/generated/Image2Characters.rekkariDetectionSave.DetectPlate.doctree" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/_build/doctrees/index.doctree" afterPath="$PROJECT_DIR$/doc/_build/doctrees/index.doctree" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/_build/doctrees/submodules.doctree" afterPath="$PROJECT_DIR$/doc/_build/doctrees/submodules.doctree" />
+    <list default="true" id="92df4fd9-bf68-4084-a4c7-ca864f5588d0" name="Default" comment="preparing">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/_build/html/_modules/Image2Characters/filterCharacterRegions.html" afterPath="$PROJECT_DIR$/doc/_build/html/_modules/Image2Characters/filterCharacterRegions.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/_build/html/_modules/Image2Characters/filterImage.html" afterPath="$PROJECT_DIR$/doc/_build/html/_modules/Image2Characters/filterImage.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/_build/html/_modules/Image2Characters/myClassifier.html" afterPath="$PROJECT_DIR$/doc/_build/html/_modules/Image2Characters/myClassifier.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/_build/html/generated/Image2Characters.filterCharacterRegions.FilterCharacterRegions.html" afterPath="$PROJECT_DIR$/doc/_build/html/generated/Image2Characters.filterCharacterRegions.FilterCharacterRegions.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/_build/html/generated/Image2Characters.myClassifier.Classifier.html" afterPath="$PROJECT_DIR$/doc/_build/html/generated/Image2Characters.myClassifier.Classifier.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/_build/html/searchindex.js" afterPath="$PROJECT_DIR$/doc/_build/html/searchindex.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/_build/html/submodules.html" afterPath="$PROJECT_DIR$/doc/_build/html/submodules.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/filterCharacterRegions.py" afterPath="$PROJECT_DIR$/filterCharacterRegions.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/filterImage.py" afterPath="$PROJECT_DIR$/filterImage.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/myClassifier.py" afterPath="$PROJECT_DIR$/myClassifier.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image2characters.py" afterPath="$PROJECT_DIR$/image2characters.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -45,11 +30,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="filterImage.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="filterImage.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/filterImage.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="233" column="9" lean-forward="false" selection-start-line="233" selection-start-column="9" selection-end-line="233" selection-end-column="9" />
+            <state relative-caret-position="570">
+              <caret line="263" column="41" lean-forward="false" selection-start-line="263" selection-start-column="41" selection-end-line="263" selection-end-column="41" />
               <folding>
                 <element signature="e#165#175#0" expanded="true" />
               </folding>
@@ -60,8 +45,8 @@
       <file leaf-file-name="rekkariDetectionSave.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/rekkariDetectionSave.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1530">
-              <caret line="107" column="71" lean-forward="true" selection-start-line="107" selection-start-column="10" selection-end-line="107" selection-end-column="71" />
+            <state relative-caret-position="645">
+              <caret line="87" column="19" lean-forward="false" selection-start-line="87" selection-start-column="8" selection-end-line="87" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -70,7 +55,7 @@
       <file leaf-file-name="myClassifier.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/myClassifier.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="570">
+            <state relative-caret-position="615">
               <caret line="56" column="50" lean-forward="true" selection-start-line="52" selection-start-column="0" selection-end-line="56" selection-end-column="50" />
               <folding>
                 <element signature="e#121#131#0" expanded="true" />
@@ -79,11 +64,23 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="image2characters.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/image2characters.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="510">
+              <caret line="73" column="32" lean-forward="false" selection-start-line="73" selection-start-column="8" selection-end-line="73" selection-end-column="32" />
+              <folding>
+                <element signature="e#313#323#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="filterCharacterRegions.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/filterCharacterRegions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="318" column="37" lean-forward="true" selection-start-line="318" selection-start-column="8" selection-end-line="318" selection-end-column="37" />
+            <state relative-caret-position="525">
+              <caret line="345" column="49" lean-forward="true" selection-start-line="345" selection-start-column="8" selection-end-line="345" selection-end-column="49" />
               <folding />
             </state>
           </provider>
@@ -111,11 +108,11 @@
         <option value="$PROJECT_DIR$/rekkariDetectionSave.py" />
         <option value="$PROJECT_DIR$/TrainSVM/getCharaters4Training.py" />
         <option value="$PROJECT_DIR$/TrainSVM/character.py" />
-        <option value="$PROJECT_DIR$/image2characters.py" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/index.rst" />
-        <option value="$PROJECT_DIR$/filterCharacterRegions.py" />
         <option value="$PROJECT_DIR$/myClassifier.py" />
+        <option value="$PROJECT_DIR$/filterCharacterRegions.py" />
+        <option value="$PROJECT_DIR$/image2characters.py" />
         <option value="$PROJECT_DIR$/filterImage.py" />
       </list>
     </option>
@@ -336,7 +333,14 @@
       <option name="project" value="LOCAL" />
       <updated>1493792850791</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="filter image, cutting plate by histogram, skewing missing">
+      <created>1493984108081</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1493984108081</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -367,7 +371,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="about final version, sphinks is missing" />
-    <option name="LAST_COMMIT_MESSAGE" value="about final version, sphinks is missing" />
+    <MESSAGE value="filter image, cutting plate by histogram, skewing missing" />
+    <option name="LAST_COMMIT_MESSAGE" value="filter image, cutting plate by histogram, skewing missing" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -413,7 +418,7 @@
         <state relative-caret-position="750">
           <caret line="59" column="25" lean-forward="false" selection-start-line="59" selection-start-column="19" selection-end-line="59" selection-end-column="25" />
           <folding>
-            <element signature="e#313#323#0" expanded="false" />
+            <element signature="e#313#323#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -467,7 +472,7 @@
         <state relative-caret-position="885">
           <caret line="59" column="25" lean-forward="false" selection-start-line="59" selection-start-column="19" selection-end-line="59" selection-end-column="25" />
           <folding>
-            <element signature="e#313#323#0" expanded="false" />
+            <element signature="e#313#323#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -511,7 +516,7 @@
         <state relative-caret-position="960">
           <caret line="73" column="0" lean-forward="true" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
           <folding>
-            <element signature="e#313#323#0" expanded="false" />
+            <element signature="e#313#323#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -557,7 +562,7 @@
         <state relative-caret-position="960">
           <caret line="73" column="20" lean-forward="false" selection-start-line="73" selection-start-column="20" selection-end-line="73" selection-end-column="20" />
           <folding>
-            <element signature="e#313#323#0" expanded="false" />
+            <element signature="e#313#323#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -673,35 +678,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/image2characters.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="597">
-          <caret line="59" column="25" lean-forward="false" selection-start-line="59" selection-start-column="19" selection-end-line="59" selection-end-column="25" />
-          <folding>
-            <element signature="e#313#323#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/filterCharacterRegions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="318" column="37" lean-forward="true" selection-start-line="318" selection-start-column="8" selection-end-line="318" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/rekkariDetectionSave.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1530">
-          <caret line="107" column="71" lean-forward="true" selection-start-line="107" selection-start-column="10" selection-end-line="107" selection-end-column="71" />
+        <state relative-caret-position="645">
+          <caret line="87" column="19" lean-forward="false" selection-start-line="87" selection-start-column="8" selection-end-line="87" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/myClassifier.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
+        <state relative-caret-position="615">
           <caret line="56" column="50" lean-forward="true" selection-start-line="52" selection-start-column="0" selection-end-line="56" selection-end-column="50" />
           <folding>
             <element signature="e#121#131#0" expanded="true" />
@@ -709,12 +696,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/filterCharacterRegions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="345" column="49" lean-forward="true" selection-start-line="345" selection-start-column="8" selection-end-line="345" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/filterImage.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="233" column="9" lean-forward="false" selection-start-line="233" selection-start-column="9" selection-end-line="233" selection-end-column="9" />
+        <state relative-caret-position="570">
+          <caret line="263" column="41" lean-forward="false" selection-start-line="263" selection-start-column="41" selection-end-line="263" selection-end-column="41" />
           <folding>
             <element signature="e#165#175#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image2characters.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="73" column="32" lean-forward="false" selection-start-line="73" selection-start-column="8" selection-end-line="73" selection-end-column="32" />
+          <folding>
+            <element signature="e#313#323#0" expanded="true" />
           </folding>
         </state>
       </provider>

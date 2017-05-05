@@ -15,7 +15,7 @@ Usage:
 import sys
 
 from Image2Characters.rekkariDetectionSave import DetectPlate
-# from filterImage import FilterImage
+from filterImage import FilterImage
 from Image2Characters.filterCharacterRegions import FilterCharacterRegions
 from Image2Characters.initialCharacterRegions import InitialCharacterRegions
 # from myTesseract import MyTesseract
@@ -71,6 +71,27 @@ class image2Characters():
             myProb, myChars = zip(*sorted(zip(myProb, myChars)))
             return myChars[::-1]
 
+    def getCharsByNeuralNetwork(self):
+        """
+        get the caharcters of a plate by neural network,
+        the image is first carefully filtered, so it only contains the actual plate
+        """
+        from Image2Characters import __path__ as module_path
+        app1 = DetectPlate(trainedHaarFileName=module_path[0]+'/rekkari.xml',
+                           npImage=self.img)
+        plates = app1.getNpPlates()  # get the actual numpy arrays
+        app3 = FilterImage()
+        app2 = FilterCharacterRegions()
+        for plate in plates:
+            #app2.setNumpyImage(image=plate)
+            #platesWithCharacterRegions = app2.imageToPlatesWithCharacterRegions()
+            app3.setNumpyImage(image=plate)
+            app3.rotate()
+            app3.cut_plate_peaks_inY()
+            app3.cut_plate_peaks_inX()
+            app3.showOriginalAndFiltered()
+
+
 
 if __name__ == '__main__':
     import sys, glob
@@ -83,3 +104,4 @@ if __name__ == '__main__':
     for file in files:
         app.setImageFromFile(imageFileName=file)
         print("Image, plate(s): ",file, app.getChars())
+        app.getCharsByNeuralNetwork()
