@@ -56,7 +56,10 @@
 <dd><dl class="method">
 <dt id="Image2Characters.myClassifier.Classifier.__init__">
 <code class="descname">__init__</code><span class="sig-paren">(</span><em>npImage=None</em>, <em>NeuralNetworkFileName=None</em>, <em>logRegFileName=None</em>, <em>svmFileName=None</em>, <em>dictionaryFile=None</em>, <em>sizeX=12</em>, <em>sizeY=18</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Image2Characters/myClassifier.html#Classifier.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Image2Characters.myClassifier.Classifier.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>predict a single character with SVM
+inspired by
+<a class="reference external" href="http://docs.opencv.org/trunk/dd/d3b/tutorial_py_svm_opencv.html">http://docs.opencv.org/trunk/dd/d3b/tutorial_py_svm_opencv.html</a></p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
@@ -83,15 +86,7 @@
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="#Image2Characters.myClassifier.Classifier.__init__" title="Image2Characters.myClassifier.Classifier.__init__"><code class="xref py py-obj docutils literal"><span class="pre">__init__</span></code></a>([npImage,&nbsp;NeuralNetworkFileName,&nbsp;...])</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param npImage:</th><td class="field-body">numpy array of image</td>
-</tr>
-</tbody>
-</table>
-</td>
+<td>predict a single character with SVM</td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">defineSixPlateCharacters</span></code>(listOfListofRectangles)</td>
 <td>By support vector machine: check all plates and in each plate go through every set of 6-rectangles</td>

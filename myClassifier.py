@@ -3,9 +3,6 @@ predict a single character with SVM
 inspired by
 http://docs.opencv.org/trunk/dd/d3b/tutorial_py_svm_opencv.html
 
-At the moment (4/2017) letter and digit recognation works ok,
-but binary classification NOT (whether we have a character in the box or not)
-
 """
 import cv2
 import numpy as np
@@ -18,6 +15,9 @@ class Classifier():
     def __init__(self, npImage=None, NeuralNetworkFileName = None, logRegFileName=None, svmFileName=None, dictionaryFile=None,
                  sizeX=12, sizeY=18):
         """
+        predict a single character with SVM
+        inspired by
+        http://docs.opencv.org/trunk/dd/d3b/tutorial_py_svm_opencv.html
 
         :param npImage: numpy array of image
         :param NeuralNetworkFileName: filename of trained neural network scikit recognizer

@@ -64,11 +64,9 @@
 
 <div class="viewcode-block" id="FilterCharacterRegions"><a class="viewcode-back" href="../../generated/Image2Characters.filterCharacterRegions.FilterCharacterRegions.html#Image2Characters.filterCharacterRegions.FilterCharacterRegions">[docs]</a><span class="k">class</span> <span class="nc">FilterCharacterRegions</span><span class="p">(</span><span class="n">InitialCharacterRegions</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    from one image representing a possible plate get </span>
-<span class="sd">    the rectangles in which letters/number are located</span>
-<span class="sd">    INPUT: gray scale image as numpy array</span>
-<span class="sd">    OUTPUT: list of possible plates in this image</span>
-<span class="sd">            each possible plate is a list of six rectangles</span>
+<span class="sd">    From one image representing a possible plate get the rectangles in which letters/number are located.</span>
+<span class="sd">    Inherits: InitialCharacterRegions which containts methods that produce lots of initial rectangles</span>
+<span class="sd">    INPUT: gray scale image as numpy array OUTPUT: list of possible plates in this image each possible plate is a list of six rectangles</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="FilterCharacterRegions.__init__"><a class="viewcode-back" href="../../generated/Image2Characters.filterCharacterRegions.FilterCharacterRegions.html#Image2Characters.filterCharacterRegions.FilterCharacterRegions.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">npImage</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -393,9 +391,9 @@
             <span class="nb">print</span><span class="p">(</span><span class="n">myas</span><span class="p">,</span><span class="n">fs</span><span class="p">)</span>
         <span class="n">angle</span><span class="o">=</span><span class="n">angles_tight</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">faas</span><span class="p">)]</span>
         <span class="n">M</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">getRotationMatrix2D</span><span class="p">((</span><span class="n">cols</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">rows</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="n">angle</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">dst</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">warpAffine</span><span class="p">(</span><span class="n">area</span><span class="p">,</span><span class="n">M</span><span class="p">,(</span><span class="n">cols</span><span class="p">,</span><span class="n">rows</span><span class="p">))</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">interpolation</span> <span class="o">=</span> <span class="s1">&#39;bicubic&#39;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="c1">#dst = cv2.warpAffine(area,M,(cols,rows))</span>
+        <span class="c1">#plt.imshow(dst, cmap = &#39;gray&#39;, interpolation = &#39;bicubic&#39;)</span>
+        <span class="c1">#plt.show()</span>
         <span class="k">return</span> <span class="n">area</span>
 
 

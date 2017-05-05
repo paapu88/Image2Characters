@@ -86,6 +86,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">imageX</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">filtered</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
+    <span class="k">def</span> <span class="nf">setNumpyImage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        set image from numpy array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">img</span> <span class="o">=</span> <span class="n">image</span>
 
     <span class="k">def</span> <span class="nf">getClone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -224,8 +229,14 @@
 
     <span class="k">def</span> <span class="nf">histogram</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;calculate histogram based on sum over x-values of the image&quot;&quot;&quot;</span>
+        <span class="n">clone</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getClone</span><span class="p">()</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+        <span class="n">a</span><span class="o">=</span><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">imgplot</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">clone</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">interpolation</span> <span class="o">=</span> <span class="s1">&#39;bicubic&#39;</span><span class="p">)</span>
+        <span class="n">a</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Before&#39;</span><span class="p">)</span>
+        <span class="n">a</span><span class="o">=</span><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
         <span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getClone</span><span class="p">(),</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>  <span class="c1"># plt.hist passes it&#39;s arguments to np.histogram</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>  <span class="c1"># plt.hist passes it&#39;s arguments to np.histogram</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Histogram with &#39;auto&#39; bins&quot;</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
@@ -248,19 +259,22 @@
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">sys</span>
+    <span class="kn">from</span> <span class="nn">filterCharacterRegions</span> <span class="k">import</span> <span class="n">FilterCharacterRegions</span>
     <span class="n">app</span> <span class="o">=</span> <span class="n">FilterImage</span><span class="p">()</span>
     <span class="n">app</span><span class="o">.</span><span class="n">setImageFromFile</span><span class="p">(</span><span class="n">imageFileName</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-    <span class="c1">#app.histogram()</span>
-    <span class="n">app</span><span class="o">.</span><span class="n">erosion</span><span class="p">()</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">filterOtsu</span><span class="p">()</span>
+    <span class="n">app2</span> <span class="o">=</span> <span class="n">FilterCharacterRegions</span><span class="p">()</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">setNumpyImage</span><span class="p">(</span><span class="n">app2</span><span class="o">.</span><span class="n">descew_histo</span><span class="p">(</span><span class="n">area</span><span class="o">=</span><span class="n">app</span><span class="o">.</span><span class="n">getClone</span><span class="p">()))</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">histogram</span><span class="p">()</span>
+    <span class="c1">#app.erosion()</span>
     <span class="c1">#app.sharpen2()</span>
     <span class="c1">#app.inPaint()</span>
     <span class="c1">#app.deBlur()</span>
-    <span class="n">app</span><span class="o">.</span><span class="n">filterAdptiveThreshold</span><span class="p">()</span>
-    <span class="c1">#app.filterOtsu()</span>
+    <span class="c1">#app.filterAdptiveThreshold()</span>
     <span class="c1">#app.filterOtsuManual()</span>
     <span class="c1">#app.cleanImage()</span>
-    <span class="n">app</span><span class="o">.</span><span class="n">showOriginalAndFiltered</span><span class="p">()</span>
-    <span class="n">app</span><span class="o">.</span><span class="n">writeFiltered</span><span class="p">()</span>
+    <span class="c1">#app.showOriginalAndFiltered()</span>
+    <span class="c1">#app.writeFiltered()</span>
 </pre></div>
 
           </div>

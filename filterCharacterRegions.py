@@ -17,11 +17,9 @@ from initialCharacterRegions import InitialCharacterRegions
 
 class FilterCharacterRegions(InitialCharacterRegions):
     """
-    from one image representing a possible plate get 
-    the rectangles in which letters/number are located
-    INPUT: gray scale image as numpy array
-    OUTPUT: list of possible plates in this image
-            each possible plate is a list of six rectangles
+    From one image representing a possible plate get the rectangles in which letters/number are located.
+    Inherits: InitialCharacterRegions which containts methods that produce lots of initial rectangles
+    INPUT: gray scale image as numpy array OUTPUT: list of possible plates in this image each possible plate is a list of six rectangles
     """
 
     def __init__(self, npImage=None):

@@ -50,9 +50,6 @@
 <span class="sd">inspired by</span>
 <span class="sd">http://docs.opencv.org/trunk/dd/d3b/tutorial_py_svm_opencv.html</span>
 
-<span class="sd">At the moment (4/2017) letter and digit recognation works ok,</span>
-<span class="sd">but binary classification NOT (whether we have a character in the box or not)</span>
-
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">cv2</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -65,6 +62,9 @@
 <div class="viewcode-block" id="Classifier.__init__"><a class="viewcode-back" href="../../generated/Image2Characters.myClassifier.Classifier.html#Image2Characters.myClassifier.Classifier.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">npImage</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">NeuralNetworkFileName</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">logRegFileName</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">svmFileName</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dictionaryFile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">sizeX</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">sizeY</span><span class="o">=</span><span class="mi">18</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        predict a single character with SVM</span>
+<span class="sd">        inspired by</span>
+<span class="sd">        http://docs.opencv.org/trunk/dd/d3b/tutorial_py_svm_opencv.html</span>
 
 <span class="sd">        :param npImage: numpy array of image</span>
 <span class="sd">        :param NeuralNetworkFileName: filename of trained neural network scikit recognizer</span>

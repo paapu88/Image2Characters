@@ -8,7 +8,8 @@ import cv2
 import sys
 from matplotlib import pyplot as plt
 import numpy as np
-
+from scipy import interpolate
+from scipy import signal
 
 class FilterImage():
     """
@@ -25,6 +26,7 @@ class FilterImage():
         self.mser = cv2.MSER_create(_max_variation=10)
         self.regions = None
         self.otsu = None
+        self.original = None
         self.filtered = npImage
         if npImage is not None:
           self.imageY = self.img.shape[0]
@@ -34,10 +36,14 @@ class FilterImage():
     def setImageFromFile(self, imageFileName, colorConversion=cv2.COLOR_BGR2GRAY):
         """ for debugging: image can be read from file also"""
         self.img = cv2.imread(imageFileName)
-        self.img = cv2.cvtColor(self.img, colorConversion)
+        try:
+            self.img = cv2.cvtColor(self.img, colorConversion)
+        except:
+            print("warning: no color conversion!")
         self.imageY = self.img.shape[0]
         self.imageX = self.img.shape[1]
         self.filtered = self.img.copy()
+        self.original = self.img.copy()
 
     def setNumpyImage(self, image):
         """
@@ -180,6 +186,107 @@ class FilterImage():
         kernel = np.ones((3, 3), np.uint8)
         self.filtered = cv2.dilate(self.filtered,kernel,iterations = 1)
 
+    def rotate(self, minAng=-10, maxAng=10):
+        """ rotate to get max intensity along x direction (to get the two white stripes) """
+        clone = self.getClone()
+        rows,cols = clone.shape
+        weights = []; angles = []
+        #rotate image
+        for angle in np.linspace(minAng, maxAng, 10*int(round(abs(maxAng)+abs(minAng)+1))):
+            M = cv2.getRotationMatrix2D((cols/2,rows/2),angle,1)
+            dst = cv2.warpAffine(clone,M,(cols,rows),borderMode=cv2.BORDER_CONSTANT, borderValue=0)
+            angles.append(angle)
+            y=np.sum(dst,axis=1)
+            #plt.plot(y)  # plt.hist passes it's arguments to np.histogram
+            #plt.title("Histogram with 'auto' bins")
+            #plt.show()
+            weights.append(np.max(y))
+        f = interpolate.interp1d(angles, weights)
+        angles_tight = np.linspace(minAng, maxAng, 1+10*int(round(abs(maxAng)+abs(minAng))))
+        faas = f(angles_tight)
+        #plt.plot(angles_tight, faas)  # plt.hist passes it's arguments to np.histogram
+        #plt.title("max white stripes")
+        #plt.show()
+
+        angles_tight = np.linspace(minAng, maxAng, 1+10*int(round(abs(maxAng)+abs(minAng))))
+        faas = f(angles_tight)
+        angle=angles_tight[np.argmax(faas)]
+        M = cv2.getRotationMatrix2D((cols/2,rows/2),angle,1)
+        dst = cv2.warpAffine(clone,M,(cols,rows))
+
+        #fig = plt.figure()
+        #a=fig.add_subplot(1,2,1)
+        #imgplot = plt.imshow(self.getClone(), cmap = 'gray', interpolation = 'bicubic')
+        #a.set_title('before')
+        #a=fig.add_subplot(1,2,2)
+        #imgplot = plt.imshow(dst, cmap = 'gray', interpolation = 'bicubic')
+        #a.set_title('After')
+        #plt.show()
+        #plt.xticks([]), plt.yticks([])  # to hide tick values on X and Y axis
+        # set the rotated image to be the current image
+        self.setNumpyImage(dst)
+
+    def cut_plate_peaks_inY(self):
+        """get the two peaks in Y correspoinding the two white stripes in plate, cut the plate along the two stripes"""
+        clone = self.filtered.copy()
+        # get the peaks in intensity
+        y=np.sum(clone,axis=1)
+        #y=self.descew(y)
+        peaks = signal.find_peaks_cwt(y, np.arange(10,20))
+        #print(peaks)
+        mymax = []
+        for peak in peaks:
+            mymax.append(y[peak])
+        # get biggest value first
+        mymax, peaks = zip(*sorted(zip(mymax, peaks)))
+        #print(mymax)
+        plt.plot(y)
+        plt.title("vertical intensities")
+        plt.show()
+        # cut in y direction
+        if peaks[-2]<peaks[-1]:
+            cutted = clone[peaks[-2]:peaks[-1],:]
+        else:
+            cutted = clone[peaks[-1]:peaks[-2],:]
+        #plt.imshow(cutted, cmap = 'gray', interpolation = 'bicubic')
+        #plt.show()
+        self.filtered = cutted
+
+
+    def cut_plate_peaks_inX(self, threshold=0.8):
+        """get the two peaks in X correspoinding the two white stripes in plate, cut the plate along the two stripes"""
+        clone = self.filtered.copy()
+        # get the peaks in intensity
+        x=np.sum(clone,axis=0)
+        #x = self.descew(x)
+        peak_indexes = signal.find_peaks_cwt(x, np.arange(10,20))
+        #print(peaks)
+        peaks = []
+        for peak_index in peak_indexes:
+            peaks.append(x[peak_index])
+        # get biggest value first
+        peaks, peak_indexes = zip(*sorted(zip(peaks, peak_indexes)))
+        print(peaks, peak_indexes)
+        plt.plot(x)  # plt.hist passes it's arguments to np.histogram
+        plt.title("vertical intensities")
+        plt.show()
+        avg=(peaks[-2]+peaks[-1])/2
+        # get values that are > average of the brighest peaks times threshols (default 0.8)
+        ok_peaks = []; ok_peak_indexes=[]
+        for i, peak in zip(peak_indexes, peaks):
+            if peak > threshold*avg:
+                ok_peak_indexes.append(i)
+
+        ok_peak_indexes = np.sort(ok_peak_indexes)
+        #plt.plot(y)
+        #plt.plot(peaks)
+        #plt.show()
+        # cut in y direction
+        cutted = clone[:, ok_peak_indexes[0]:ok_peak_indexes[-1]]
+        plt.imshow(cutted, cmap = 'gray', interpolation = 'bicubic')
+        plt.show()
+        self.filtered = cutted
+
     def histogram(self):
         """calculate histogram based on sum over x-values of the image"""
         clone = self.getClone()
@@ -209,13 +316,31 @@ class FilterImage():
     def writeFiltered(self):
         cv2.imwrite('filtered'+sys.argv[1]+'.tif', self.filtered)
 
+    def descew(self, x, method='log'):
+        """try descewing data"""
+        if method == 'sqrt':
+            y = np.sqrt(x)
+        elif method == 'log':
+            y = np.log(x)
+        else:
+            raise NotImplementedError("skew method not implemented")
+        return y
 
 if __name__ == '__main__':
-    import sys
+    import sys, glob
     from filterCharacterRegions import FilterCharacterRegions
-    app = FilterImage()
-    app.setImageFromFile(imageFileName=sys.argv[1])
-    app.filterOtsu()
+    for imageFileName in glob.glob(sys.argv[1]):
+        print("file:", imageFileName)
+        app = FilterImage()
+        app.setImageFromFile(imageFileName=imageFileName)
+
+        #app.filterOtsu()
+        app.rotate()
+        app.cut_plate_peaks_inY()
+        app.cut_plate_peaks_inX()
+        app.showOriginalAndFiltered()
+
+    sys.exit()
     app2 = FilterCharacterRegions()
     app.setNumpyImage(app2.descew_histo(area=app.getClone()))
     app.histogram()
