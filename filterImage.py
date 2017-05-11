@@ -198,7 +198,7 @@ class FilterImage():
             angles.append(angle)
             y=np.sum(dst,axis=1)
             #plt.plot(y)  # plt.hist passes it's arguments to np.histogram
-            #plt.title("Histogram with 'auto' bins")
+            #plt.title("Angle "+str(angle))
             #plt.show()
             weights.append(np.max(y))
         f = interpolate.interp1d(angles, weights)

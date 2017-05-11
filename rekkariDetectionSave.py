@@ -184,7 +184,12 @@ class DetectPlate():
 
     def writePlates(self, name=None):
         """debugging: write each plate to a separate file"""
-        print("writing to file", name)
+        self.image2Plates()
+        if self.plates is not None:
+            print("writing to file", name, len(self.plates))
+        else:
+            print("NO PLATES FOUND")
+            return
         for i, [x,y,w,h] in enumerate(self.plates):
             clone = self.getGray()
             rows,cols = clone.shape
@@ -219,9 +224,13 @@ if __name__ == '__main__':
     import sys, glob
 
     for imageFileName in glob.glob(sys.argv[1]):
+        #app = DetectPlate(imageFileName=imageFileName,
+        #                trainedHaarFileName='./rekkari.xml',
+        #                detectFactor=1)
         app = DetectPlate(imageFileName=imageFileName,
-                        trainedHaarFileName='./rekkari.xml',
-                        detectFactor=1)
-        app.getRotationAnglesCenters()
-        app.writePlates(name='plateOnly-'+sys.argv[1])
-        app.showPlates()
+                        trainedHaarFileName='/home/mka/PycharmProjects/Rekkari/Training_singlePlate_withChar/classifier/cascade.xml',
+                         detectFactor=1)
+        #app.getRotationAnglesCenters()
+
+        #app.showPlates()
+        app.writePlates(name='plateOnly-'+imageFileName)

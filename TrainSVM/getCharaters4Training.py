@@ -57,7 +57,7 @@ Test/Predict
         self.sigma=0.1
         self.angle=0
         self.salt_amount=0.1
-        self.repeat=300
+        self.repeat=500
         # sheet containing samples
 
         # if we only classify to positives and negatives, binary=true
@@ -124,7 +124,8 @@ Test/Predict
         """
 
         if noise_typ == "gaussAdd":
-            row, col = image.shape
+            row = image.shape[0]
+            col = image.shape[1]
             mean = max(0,np.mean(image))
             # var = 0.1
             # sigma = var**0.5
@@ -137,20 +138,23 @@ Test/Predict
             return noisy
         elif noise_typ == "sp":
             #print("sp ", self.salt_amount)
-            row, col = image.shape
+            row = image.shape[0]
+            col = image.shape[1]            
             a=np.zeros(image.shape)
             a=a.flatten()
             s_vs_p = 0.9
-            salt_amount=0.01
+            salt_amount=0.1
             out = image
             # Salt mode
-            num_salt = np.ceil(salt_amount * image.size * s_vs_p)
+            #print (image.size, salt_amount,s_vs_p)
+            num_salt = int(np.ceil(salt_amount * image.size * s_vs_p))
+            #print(num_salt)
             a[0:num_salt]=1
             np.random.shuffle(a)
             a = a.reshape(image.shape)
             out = out + a
             # Pepper mode
-            num_pepper = np.ceil(salt_amount * image.size * (1. - s_vs_p))
+            num_pepper = int(np.ceil(salt_amount * image.size * (1. - s_vs_p)))
             b=np.ones(image.shape)
             b=b.flatten()
             b[0:num_pepper]=0
@@ -212,6 +216,14 @@ Test/Predict
             #cv2.waitKey(0)
             yield c, dst
 
+    def myscale(self, image, scale_variation=0.1):
+        h = image.shape[0]
+        w = image.shape[1]
+        scale=random.uniform(1-scale_variation, 1+scale_variation)
+        return cv2.resize(image,(int(round(w*scale)), int(round(h*scale))))
+        
+
+            
     def rotate(self, image):
         cols=image.shape[1]
         rows= image.shape[0]
@@ -221,23 +233,23 @@ Test/Predict
         return cv2.warpAffine(image,M,(cols,rows),borderValue=average_color)
 
 
-    def make_noise(self, image, invert=True):
+    def make_noise(self, image, invert=True, anglemax=8):
         """rotate and noisify image"""
 
         clone = image.copy()
         myrandoms = np.random.random(5)
         #print("myrandoms ", myrandoms)
-        self.angle = random.uniform(-10, 10)
+        self.angle = random.uniform(-anglemax, anglemax)
 
         myones = np.ones(clone.shape)
 
-        if myrandoms[0] < 0:
+        if myrandoms[0] < 0.2:
             clone = self.noisy("poisson",clone )
         if myrandoms[1] < 0.5:  # use
             clone = self.noisy("gaussAdd",clone )
-        if myrandoms[2] < 0:
+        if myrandoms[2] < 0.2:
             clone = self.noisy("sp",clone )
-        if myrandoms[3] < 0.0:
+        if myrandoms[3] < 0.2:
             clone = self.noisy("gaussMulti",clone )
         if myrandoms[4] < 0.5:  # use
             clone = self.noisy("blur", clone)
@@ -313,19 +325,15 @@ Test/Predict
                     ifile = random.randint(a=0,b=len(self.negative_image_files)-1)
                     #big_negative = rgb2gray(mpimg.imread(self.negative_image_files[ifile]))
                     big_negative = cv2.imread(self.negative_image_files[ifile])
-                    try:
-                        big_negative = cv2.cvtColor(big_negative,cv2.COLOR_BGR2GRAY)
-                        # get corners to have something else than flat areas
-                        corners = cv2.goodFeaturesToTrack(big_negative, 5, 0.01, 10)
-                        corners = np.int0(corners)
-                        i = random.randint(0, len(corners) - 1)
-                        x_ul, y_ul = corners[i].ravel()
-                        if ((x_ul + img.shape[1]) < big_negative.shape[1]) \
-                                and ((y_ul + img.shape[0]) < big_negative.shape[0]):
-                            found = True
-                    except:
-                        pass
-
+                    big_negative = cv2.cvtColor(big_negative,cv2.COLOR_BGR2GRAY)
+                    # get corners to have something else than flat areas
+                    corners = cv2.goodFeaturesToTrack(big_negative,5,0.01,10)
+                    corners = np.int0(corners)
+                    i=random.randint(0,len(corners)-1)
+                    x_ul, y_ul = corners[i].ravel()
+                    if ((x_ul + img.shape[1]) < big_negative.shape[1]) \
+                            and ((y_ul + img.shape[0]) < big_negative.shape[0]):
+                        found = True
 
                 # same noise as to positive samples
                 big_negative = self.make_noise(big_negative/255, invert=False)

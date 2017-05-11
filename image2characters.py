@@ -15,11 +15,12 @@ Usage:
 import sys
 
 from Image2Characters.rekkariDetectionSave import DetectPlate
-from filterImage import FilterImage
+from Image2Characters.filterImage import FilterImage
 from Image2Characters.filterCharacterRegions import FilterCharacterRegions
 from Image2Characters.initialCharacterRegions import InitialCharacterRegions
 # from myTesseract import MyTesseract
 from Image2Characters.myClassifier import Classifier
+from Image2Characters.detect_oneImage import Detect
 import glob
 import cv2
 
@@ -31,6 +32,12 @@ class image2Characters():
     """
     def __init__(self, npImage=None):
         self.img = npImage  # image as numpy array
+
+    def setNumpyImage(self, image):
+        """
+        set image from numpy array
+        """
+        self.img = image
 
     def setImageFromFile(self, imageFileName, colorConversion=cv2.COLOR_BGR2GRAY):
         """ for debuggin image can be read from file also"""
@@ -82,6 +89,10 @@ class image2Characters():
         plates = app1.getNpPlates()  # get the actual numpy arrays
         app3 = FilterImage()
         app2 = FilterCharacterRegions()
+        f = np.load('weights.npz')
+        param_vals = [f[n] for n in sorted(f.files, key=lambda s: int(s[4:]))]
+        app4 = Detect(param_vals = param_vals)
+        
         for plate in plates:
             #app2.setNumpyImage(image=plate)
             #platesWithCharacterRegions = app2.imageToPlatesWithCharacterRegions()
@@ -89,7 +100,10 @@ class image2Characters():
             app3.rotate()
             app3.cut_plate_peaks_inY()
             app3.cut_plate_peaks_inX()
-            app3.showOriginalAndFiltered()
+            img=app3.get_filtered()
+            app4.setNpImage(img)
+            app4.maximise_prob()
+            #app3.showOriginalAndFiltered()
 
 
 
