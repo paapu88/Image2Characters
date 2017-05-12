@@ -33,11 +33,17 @@ class image2Characters():
     def __init__(self, npImage=None):
         self.img = npImage  # image as numpy array
 
-    def setNumpyImage(self, image):
+    def setNumpyImage(self, image, imageType=None):
         """
         set image from numpy array
         """
         self.img = image
+        if imageType is not None:
+            if "RGB24FrameView" in str(imageType):
+                self.img = cv2.cvtColor(self.img, cv2.COLOR_RGB2GRAY)
+            else:
+                print ("mok WARNING: color conversion not implemented: ", imageType)
+
 
     def setImageFromFile(self, imageFileName, colorConversion=cv2.COLOR_BGR2GRAY):
         """ for debuggin image can be read from file also"""
@@ -54,7 +60,10 @@ class image2Characters():
         myProb = []
         app1 = DetectPlate(trainedHaarFileName=module_path[0]+'/rekkari.xml',
                            npImage=self.img)
+
         plates = app1.getNpPlates()
+        print("mok shape ",self.img.shape, len(plates))
+
         #app1.showPlates()
         #app1.writePlates(name='plateOnly-'+sys.argv[1])
         #print(file+' number of plates found '+ str(len(plates)))
@@ -69,13 +78,22 @@ class image2Characters():
             app5.defineSixPlateCharactersbyLogReg(platesWithCharacterRegions)
             plate_chars, plate_probability = app5.getFinalStrings()
             myChars = myChars + plate_chars
+            if plate_probability is None:
+                plate_probability = 0.0
             myProb = myProb + plate_probability
 
+        if len(plates) == 0:
+            # no plate found
+            print("no plate found")
+            return None
+
         # sort so that most probable comes first
-        if any(myProb) is None:
-            return myChars
+        myProb, myChars = zip(*sorted(zip(myProb, myChars)))
+        if myProb[-1]< 0.01:
+            # if there are no likely plates
+            print ("possible plate found, but no characters assigned")
+            return None
         else:
-            myProb, myChars = zip(*sorted(zip(myProb, myChars)))
             return myChars[::-1]
 
     def getCharsByNeuralNetwork(self):
@@ -118,4 +136,4 @@ if __name__ == '__main__':
     for file in files:
         app.setImageFromFile(imageFileName=file)
         print("Image, plate(s): ",file, app.getChars())
-        app.getCharsByNeuralNetwork()
+        #app.getCharsByNeuralNetwork()

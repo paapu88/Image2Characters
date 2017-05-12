@@ -2,19 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="92df4fd9-bf68-4084-a4c7-ca864f5588d0" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Test/0-plateOnly-???-???.jpg" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Test/0-plateOnly-glb-172.jpg" afterPath="$PROJECT_DIR$/Test/0-plateOnly-glb-172.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Test/0-plateOnly-vkz-825.jpg" afterPath="$PROJECT_DIR$/Test/0-plateOnly-vkz-825.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Test/0-plateOnly-voy-143.jpg" afterPath="$PROJECT_DIR$/Test/0-plateOnly-voy-143.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Test/0-plateOnly-xjz-782.jpg" afterPath="$PROJECT_DIR$/Test/0-plateOnly-xjz-782.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Test/1-plateOnly-voy-143.jpg" afterPath="$PROJECT_DIR$/Test/1-plateOnly-voy-143.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Test/orig0-plateOnly-vkz-825.jpg" afterPath="$PROJECT_DIR$/Test/orig0-plateOnly-vkz-825.jpg" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TrainSVM/getCharaters4Training.py" afterPath="$PROJECT_DIR$/TrainSVM/getCharaters4Training.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/filterCharacterRegions.py" afterPath="$PROJECT_DIR$/filterCharacterRegions.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/filterImage.py" afterPath="$PROJECT_DIR$/filterImage.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image2characters.py" afterPath="$PROJECT_DIR$/image2characters.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rekkariDetectionSave.py" afterPath="$PROJECT_DIR$/rekkariDetectionSave.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -42,7 +31,7 @@
       <file leaf-file-name="filterImage.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/filterImage.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3120">
+            <state relative-caret-position="3045">
               <caret line="208" column="9" lean-forward="false" selection-start-line="208" selection-start-column="9" selection-end-line="208" selection-end-column="9" />
               <folding>
                 <element signature="e#165#175#0" expanded="true" />
@@ -54,8 +43,8 @@
       <file leaf-file-name="initialCharacterRegions.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/initialCharacterRegions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" column="36" lean-forward="true" selection-start-line="9" selection-start-column="36" selection-end-line="9" selection-end-column="36" />
+            <state relative-caret-position="-135">
+              <caret line="9" column="36" lean-forward="false" selection-start-line="9" selection-start-column="36" selection-end-line="9" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -64,7 +53,7 @@
       <file leaf-file-name="rekkariDetectionSave.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/rekkariDetectionSave.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1305">
+            <state relative-caret-position="730">
               <caret line="87" column="19" lean-forward="false" selection-start-line="87" selection-start-column="8" selection-end-line="87" selection-end-column="19" />
               <folding>
                 <element signature="e#297#315#0" expanded="true" />
@@ -76,8 +65,8 @@
       <file leaf-file-name="myClassifier.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/myClassifier.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="840">
-              <caret line="56" column="50" lean-forward="false" selection-start-line="52" selection-start-column="0" selection-end-line="56" selection-end-column="50" />
+            <state relative-caret-position="273">
+              <caret line="23" column="66" lean-forward="false" selection-start-line="23" selection-start-column="58" selection-end-line="23" selection-end-column="66" />
               <folding>
                 <element signature="e#121#131#0" expanded="true" />
               </folding>
@@ -85,12 +74,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="image2characters.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="image2characters.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/image2characters.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="175">
-              <caret line="16" column="22" lean-forward="true" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="22" />
-              <folding />
+            <state relative-caret-position="235">
+              <caret line="84" column="0" lean-forward="false" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
+              <folding>
+                <element signature="e#313#323#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -98,18 +89,52 @@
       <file leaf-file-name="detect_oneImage.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/detect_oneImage.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="36" column="10" lean-forward="true" selection-start-line="36" selection-start-column="10" selection-end-line="36" selection-end-column="10" />
-              <folding />
+            <state relative-caret-position="540">
+              <caret line="37" column="10" lean-forward="false" selection-start-line="37" selection-start-column="10" selection-end-line="37" selection-end-column="10" />
+              <folding>
+                <marker date="1494571697524" expanded="true" signature="1132:1550" ph="&quot;&quot;&quot;Routines to detect number plates....&quot;&quot;&quot;" />
+                <marker date="1494571697524" expanded="true" signature="1552:1850" ph="import ..." />
+                <marker date="1494571697524" expanded="true" signature="1872:1955" ph="..." />
+                <marker date="1494571697524" expanded="true" signature="2086:2193" ph="..." />
+                <marker date="1494571697524" expanded="true" signature="2210:2247" ph="..." />
+                <marker date="1494571697524" expanded="true" signature="2299:2900" ph="..." />
+                <marker date="1494571697524" expanded="true" signature="2392:2475" ph="..." />
+                <marker date="1494571697524" expanded="true" signature="2503:2900" ph="..." />
+                <marker date="1494571697524" expanded="true" signature="2605:2880" ph="..." />
+                <marker date="1494571697524" expanded="true" signature="2917:8644" ph="..." />
+                <marker date="1494571697524" expanded="true" signature="2922:3169" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+                <marker date="1494571697524" expanded="true" signature="3224:3929" ph="..." />
+                <marker date="1494571697524" expanded="true" signature="3962:3987" ph="..." />
+                <marker date="1494571697524" expanded="true" signature="4020:4064" ph="..." />
+                <marker date="1494571697524" expanded="true" signature="4099:4134" ph="..." />
+                <marker date="1494571697524" expanded="true" signature="4172:4253" ph="..." />
+                <marker date="1494571697524" expanded="true" signature="4284:5728" ph="..." />
+                <marker date="1494571697524" expanded="true" signature="4487:4549" ph="..." />
+                <marker date="1494571697524" expanded="true" signature="4571:4766" ph="..." />
+                <marker date="1494571697524" expanded="true" signature="4861:5697" ph="..." />
+                <marker date="1494571697524" expanded="true" signature="5779:5853" ph="..." />
+                <marker date="1494571697524" expanded="true" signature="5875:5934" ph="..." />
+                <marker date="1494571697524" expanded="true" signature="5960:8644" ph="..." />
+                <marker date="1494571697524" expanded="true" signature="5969:6104" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+                <marker date="1494571697524" expanded="true" signature="6139:6587" ph="..." />
+                <marker date="1494571697524" expanded="true" signature="7029:8268" ph="..." />
+                <marker date="1494571697524" expanded="true" signature="7245:7665" ph="..." />
+                <marker date="1494571697524" expanded="true" signature="7791:8268" ph="..." />
+                <marker date="1494571697524" expanded="true" signature="8467:8588" ph="..." />
+                <marker date="1494571697524" expanded="true" signature="8673:9286" ph="..." />
+                <marker date="1494571697524" expanded="true" signature="8754:8885" ph="..." />
+                <marker date="1494571697524" expanded="true" signature="9020:9131" ph="..." />
+                <marker date="1494571697524" expanded="true" signature="9193:9262" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="model.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="model.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="14" column="79" lean-forward="true" selection-start-line="14" selection-start-column="79" selection-end-line="14" selection-end-column="79" />
+            <state relative-caret-position="374">
+              <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -126,6 +151,8 @@
       <find>__</find>
       <find>Classi</find>
       <find>from</find>
+      <find>predic</find>
+      <find>logistic</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -141,16 +168,15 @@
         <option value="$PROJECT_DIR$/index.rst" />
         <option value="$PROJECT_DIR$/myClassifier.py" />
         <option value="$PROJECT_DIR$/filterImage.py" />
-        <option value="$PROJECT_DIR$/image2characters.py" />
         <option value="$PROJECT_DIR$/filterCharacterRegions.py" />
         <option value="$PROJECT_DIR$/detect_oneImage.py" />
         <option value="$PROJECT_DIR$/model.py" />
+        <option value="$PROJECT_DIR$/image2characters.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="82" />
-    <option name="y" value="37" />
+    <option name="y" value="13" />
     <option name="width" value="1920" />
     <option name="height" value="1011" />
   </component>
@@ -378,11 +404,18 @@
       <option name="project" value="LOCAL" />
       <updated>1493992254825</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="fits with Valkka">
+      <created>1494503504641</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1494503504641</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="82" y="37" width="1920" height="1011" extended-state="2" />
+    <frame x="0" y="13" width="1920" height="1011" extended-state="2" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24934107" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -411,7 +444,8 @@
     <MESSAGE value="about final version, sphinks is missing" />
     <MESSAGE value="filter image, cutting plate by histogram, skewing missing" />
     <MESSAGE value="playing inimage2characters.py with getCharsByNeuralNetwork" />
-    <option name="LAST_COMMIT_MESSAGE" value="playing inimage2characters.py with getCharsByNeuralNetwork" />
+    <MESSAGE value="fits with Valkka" />
+    <option name="LAST_COMMIT_MESSAGE" value="fits with Valkka" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -452,7 +486,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="960">
           <caret line="73" column="32" lean-forward="false" selection-start-line="73" selection-start-column="8" selection-end-line="73" selection-end-column="32" />
-          <folding />
+          <folding>
+            <element signature="e#313#323#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -460,7 +496,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5115">
           <caret line="345" column="49" lean-forward="true" selection-start-line="345" selection-start-column="8" selection-end-line="345" selection-end-column="49" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -496,7 +531,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5190">
           <caret line="350" column="9" lean-forward="false" selection-start-line="350" selection-start-column="9" selection-end-line="350" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -504,7 +538,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="750">
           <caret line="59" column="25" lean-forward="false" selection-start-line="59" selection-start-column="19" selection-end-line="59" selection-end-column="25" />
-          <folding />
+          <folding>
+            <element signature="e#313#323#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -550,7 +586,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5190">
           <caret line="350" column="9" lean-forward="false" selection-start-line="350" selection-start-column="9" selection-end-line="350" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -558,7 +593,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="885">
           <caret line="59" column="25" lean-forward="false" selection-start-line="59" selection-start-column="19" selection-end-line="59" selection-end-column="25" />
-          <folding />
+          <folding>
+            <element signature="e#313#323#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -594,7 +631,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="525">
           <caret line="39" column="14" lean-forward="false" selection-start-line="39" selection-start-column="14" selection-end-line="39" selection-end-column="14" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -602,7 +638,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="960">
           <caret line="73" column="0" lean-forward="true" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#313#323#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -640,7 +678,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="525">
           <caret line="39" column="14" lean-forward="false" selection-start-line="39" selection-start-column="14" selection-end-line="39" selection-end-column="14" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -648,7 +685,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="960">
           <caret line="73" column="20" lean-forward="false" selection-start-line="73" selection-start-column="20" selection-end-line="73" selection-end-column="20" />
-          <folding />
+          <folding>
+            <element signature="e#313#323#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -758,29 +797,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/conf.py" />
     <entry file="file://$PROJECT_DIR$/index.rst" />
-    <entry file="file://$PROJECT_DIR$/myClassifier.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="840">
-          <caret line="56" column="50" lean-forward="false" selection-start-line="52" selection-start-column="0" selection-end-line="56" selection-end-column="50" />
-          <folding>
-            <element signature="e#121#131#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rekkariDetectionSave.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1305">
-          <caret line="87" column="19" lean-forward="false" selection-start-line="87" selection-start-column="8" selection-end-line="87" selection-end-column="19" />
-          <folding>
-            <element signature="e#297#315#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/filterImage.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3120">
+        <state relative-caret-position="3045">
           <caret line="208" column="9" lean-forward="false" selection-start-line="208" selection-start-column="9" selection-end-line="208" selection-end-column="9" />
           <folding>
             <element signature="e#165#175#0" expanded="true" />
@@ -788,43 +807,98 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/initialCharacterRegions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="36" lean-forward="true" selection-start-line="9" selection-start-column="36" selection-end-line="9" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/filterCharacterRegions.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
           <caret line="14" column="22" lean-forward="false" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/image2characters.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="16" column="22" lean-forward="true" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/detect_oneImage.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="36" column="10" lean-forward="true" selection-start-line="36" selection-start-column="10" selection-end-line="36" selection-end-column="10" />
-          <folding />
+        <state relative-caret-position="540">
+          <caret line="37" column="10" lean-forward="false" selection-start-line="37" selection-start-column="10" selection-end-line="37" selection-end-column="10" />
+          <folding>
+            <marker date="1494571697524" expanded="true" signature="1132:1550" ph="&quot;&quot;&quot;Routines to detect number plates....&quot;&quot;&quot;" />
+            <marker date="1494571697524" expanded="true" signature="1552:1850" ph="import ..." />
+            <marker date="1494571697524" expanded="true" signature="1872:1955" ph="..." />
+            <marker date="1494571697524" expanded="true" signature="2086:2193" ph="..." />
+            <marker date="1494571697524" expanded="true" signature="2210:2247" ph="..." />
+            <marker date="1494571697524" expanded="true" signature="2299:2900" ph="..." />
+            <marker date="1494571697524" expanded="true" signature="2392:2475" ph="..." />
+            <marker date="1494571697524" expanded="true" signature="2503:2900" ph="..." />
+            <marker date="1494571697524" expanded="true" signature="2605:2880" ph="..." />
+            <marker date="1494571697524" expanded="true" signature="2917:8644" ph="..." />
+            <marker date="1494571697524" expanded="true" signature="2922:3169" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+            <marker date="1494571697524" expanded="true" signature="3224:3929" ph="..." />
+            <marker date="1494571697524" expanded="true" signature="3962:3987" ph="..." />
+            <marker date="1494571697524" expanded="true" signature="4020:4064" ph="..." />
+            <marker date="1494571697524" expanded="true" signature="4099:4134" ph="..." />
+            <marker date="1494571697524" expanded="true" signature="4172:4253" ph="..." />
+            <marker date="1494571697524" expanded="true" signature="4284:5728" ph="..." />
+            <marker date="1494571697524" expanded="true" signature="4487:4549" ph="..." />
+            <marker date="1494571697524" expanded="true" signature="4571:4766" ph="..." />
+            <marker date="1494571697524" expanded="true" signature="4861:5697" ph="..." />
+            <marker date="1494571697524" expanded="true" signature="5779:5853" ph="..." />
+            <marker date="1494571697524" expanded="true" signature="5875:5934" ph="..." />
+            <marker date="1494571697524" expanded="true" signature="5960:8644" ph="..." />
+            <marker date="1494571697524" expanded="true" signature="5969:6104" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+            <marker date="1494571697524" expanded="true" signature="6139:6587" ph="..." />
+            <marker date="1494571697524" expanded="true" signature="7029:8268" ph="..." />
+            <marker date="1494571697524" expanded="true" signature="7245:7665" ph="..." />
+            <marker date="1494571697524" expanded="true" signature="7791:8268" ph="..." />
+            <marker date="1494571697524" expanded="true" signature="8467:8588" ph="..." />
+            <marker date="1494571697524" expanded="true" signature="8673:9286" ph="..." />
+            <marker date="1494571697524" expanded="true" signature="8754:8885" ph="..." />
+            <marker date="1494571697524" expanded="true" signature="9020:9131" ph="..." />
+            <marker date="1494571697524" expanded="true" signature="9193:9262" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="14" column="79" lean-forward="true" selection-start-line="14" selection-start-column="79" selection-end-line="14" selection-end-column="79" />
+        <state relative-caret-position="374">
+          <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rekkariDetectionSave.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="730">
+          <caret line="87" column="19" lean-forward="false" selection-start-line="87" selection-start-column="8" selection-end-line="87" selection-end-column="19" />
+          <folding>
+            <element signature="e#297#315#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/initialCharacterRegions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-135">
+          <caret line="9" column="36" lean-forward="false" selection-start-line="9" selection-start-column="36" selection-end-line="9" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/myClassifier.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="23" column="66" lean-forward="false" selection-start-line="23" selection-start-column="58" selection-end-line="23" selection-end-column="66" />
+          <folding>
+            <element signature="e#121#131#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image2characters.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="235">
+          <caret line="84" column="0" lean-forward="false" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
+          <folding>
+            <element signature="e#313#323#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
