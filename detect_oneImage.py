@@ -155,6 +155,78 @@ class Detect():
         res = x[0] + x[1] - x[2] - x[3]
         return res
 
+    def get_prob_and_letters(self, image):
+        """ for a single image, get a probability that a plate of roughly right size is there,
+        get also characters of the plate """
+
+        xx, yy, params = model.get_detect_model()
+
+        #plt.imshow(scaled_im)
+        #plt.xticks([]), plt.yticks([])  # to hide tick values on X and Y axis
+        #plt.show()
+
+        present_prob=0.0
+        xx, yy, params = model.get_detect_model()
+        # Execute the model at each scale.
+        with tf.Session(config=tf.ConfigProto()) as sess:
+            y_vals = []
+            feed_dict = {xx: np.stack([image])}
+            feed_dict.update(dict(zip(params, self.param_vals)))
+            y_vals.append(sess.run(yy, feed_dict=feed_dict))
+
+            # Interpret the results in terms of bounding boxes in the input image.
+            # Do this by identifying windows (at all scales)
+            # where the model predicts a
+            # number plate has a greater than 50% probability of appearing.
+            #
+            # To obtain pixel coordinates,
+            # the window coordinates are scaled according
+            # to the stride size, and pixel coordinates.
+            i=0; y_val = y_vals[0]
+            for window_coords in np.argwhere(y_val[0, :, :, 0] > -math.log(1./0.001 - 1)):
+                letter_probs = (y_val[0,
+                            window_coords[0],
+                                window_coords[1], 1:].reshape(
+                                7, len(CHARS)))
+                letter_probs = softmax(letter_probs)
+
+                img_scale = float(1)
+
+                present_prob = sigmoid(
+                    y_val[0, window_coords[0], window_coords[1], 0])
+
+                print(present_prob, self.letter_probs_to_code(letter_probs))
+        if present_prob > 0.0:
+            letters = self.letter_probs_to_code(letter_probs)
+        else:
+            letters = None
+
+        return present_prob, letters
+
+    def get_all_prob_letters(self, nstepBigger=16, nstepSmaller=6, stepPix=4):
+        """ scale image and get corresponding probability of existence a proper plate and get also plate characters"""
+        images = []
+        probs = []
+        letters = []
+        # start from small
+        width = self.image.shape[1]-nstepSmaller * stepPix
+        height = self.image.shape[0]-nstepSmaller * stepPix
+        ulx = width/2
+        uly = height/2
+        for istep in range(nstepBigger + nstepSmaller):
+            # take slice
+            scaled_im = self.image.copy()[uly:(uly+height), ulx:(ulx+width)]
+            scaled_im = cv2.resize(scaled_im, (model.WINDOW_SHAPE[1], model.WINDOW_SHAPE[0]))
+            present_prob, letters = self.get_prob_and_letters(scaled_im)
+            probs.append(present_prob)
+            letters.append(letters)
+            images.append(image)
+
+        plt.plot(probs)
+        plt.title("Probs")
+        plt.show()
+
+
     def detect(self, x):
         """
         Detect number plates in an image.

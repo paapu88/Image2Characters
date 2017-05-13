@@ -120,7 +120,8 @@ class image2Characters():
             app3.cut_plate_peaks_inX()
             img=app3.get_filtered()
             app4.setNpImage(img)
-            app4.maximise_prob()
+            app4.get_all_prob_letters()
+            #app4.get_prob_and_letters(self, img)
             #app3.showOriginalAndFiltered()
 
 
@@ -136,4 +137,4 @@ if __name__ == '__main__':
     for file in files:
         app.setImageFromFile(imageFileName=file)
         print("Image, plate(s): ",file, app.getChars())
-        #app.getCharsByNeuralNetwork()
+        app.getCharsByNeuralNetwork()
